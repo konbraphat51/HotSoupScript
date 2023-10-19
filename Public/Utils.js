@@ -33,3 +33,11 @@ function ImportScript(path) {
 function CopyArray(ar) {
     return ar.slice();
 }
+
+/**
+ * Print to console. Nothing happens to the screen.
+ * (Same as console.log)
+ */
+function Log(anything) {
+    console.log(anything);
+}
