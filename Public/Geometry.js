@@ -83,11 +83,7 @@ function NormalizeVec(vec) {
 
     var output = CopyArray(vec);
 
-    var length = 0;
-    for (var i = 0; i < dimention; i++) {
-        length += Math.pow(output[i], 2);
-    }
-    length = Math.sqrt(length);
+    const length = GetVecLength(vec);
 
     for (var i = 0; i < dimention; i++) {
         output[i] /= length;
@@ -123,4 +119,19 @@ function MultiplyVec(scalar, vec) {
  */
 function ChangeVecLength(vec, length) {
     return MultiplyVec(length, NormalizeVec(vec));
+}
+
+/**
+ * Calculate length of a vector.
+ */
+function GetVecLength(vec) {
+    return Math.sqrt(DotVec(vec, vec));
+}
+
+/**
+ * Calculate projection of vec_object on vec_screen.
+ * JP: 正射影ベクトル
+ */
+function GetOrthographicVec(vec_screen, vec_object) {
+    return MultiplyVec(DotVec(vec_screen, vec_object) / DotVec(vec_screen, vec_screen), vec_screen);
 }
