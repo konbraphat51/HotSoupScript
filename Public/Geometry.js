@@ -135,3 +135,20 @@ function GetVecLength(vec) {
 function GetOrthographicVec(vec_screen, vec_object) {
     return MultiplyVec(DotVec(vec_screen, vec_object) / DotVec(vec_screen, vec_screen), vec_screen);
 }
+
+/**
+ * Check if a vector is approximately zero vector.
+ * Useful because floating point numbers rarely become equals.
+ * 
+ * @returns whether vec ~ 0
+ */
+function IsApproximatelyZeroVector(vec) {
+    const dimention = vec.length;
+    for (var cnt = 0; cnt < dimention; cnt++) {
+        if (Approximate(vec[cnt], 0)) {
+            return false;
+        }
+    }
+
+    return true;
+}
