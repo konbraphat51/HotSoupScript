@@ -4,8 +4,8 @@
 /**
  * Calculate distance of 2 positions.
  */
-function GetDistance(x1, y1, x2, y2) {
-    return Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2))
+function GetDistance(pos1, pos2) {
+    return Math.sqrt(Math.pow(pos2[0] - pos1[0], 2) + Math.pow(pos2[1] - pos1[1], 2))
 }
 
 /*
@@ -13,6 +13,8 @@ function GetDistance(x1, y1, x2, y2) {
 
 This library assume vector as an array.
 The lengh of the array is the dimension of the vector.
+
+All these functions doesn't change the inputed original vector.
 */
 
 /**
@@ -81,6 +83,10 @@ function DotVec(vec1, vec2) {
 function NormalizeVec(vec) {
     const dimention = vec.length;
 
+    if (IsApproximatelyZeroVector(vec)) {
+        throw "Zero vector has no direction!";
+    }
+
     var output = CopyArray(vec);
 
     const length = GetVecLength(vec);
@@ -118,6 +124,10 @@ function MultiplyVec(scalar, vec) {
  * @returns The modified vector.
  */
 function ChangeVecLength(vec, length) {
+    if (IsApproximatelyZeroVector(vec)) {
+        throw "Zero vector has no direction!";
+    }
+
     return MultiplyVec(length, NormalizeVec(vec));
 }
 
@@ -133,7 +143,11 @@ function GetVecLength(vec) {
  * JP: 正射影ベクトル
  */
 function GetOrthographicVec(vec_screen, vec_object) {
-    return MultiplyVec(DotVec(vec_screen, vec_object) / DotVec(vec_screen, vec_screen), vec_screen);
+    if (IsApproximatelyZeroVector(vec_screen) || IsApproximatelyZeroVector(vec_object)) {
+        return Array(vec_screen.length).fill(0);
+    } else {
+        return MultiplyVec(DotVec(vec_screen, vec_object) / DotVec(vec_screen, vec_screen), vec_screen);
+    }
 }
 
 /**
@@ -144,8 +158,9 @@ function GetOrthographicVec(vec_screen, vec_object) {
  */
 function IsApproximatelyZeroVector(vec) {
     const dimention = vec.length;
+
     for (var cnt = 0; cnt < dimention; cnt++) {
-        if (Approximate(vec[cnt], 0)) {
+        if (!Approximate(vec[cnt], 0)) {
             return false;
         }
     }
