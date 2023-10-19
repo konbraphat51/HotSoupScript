@@ -16,3 +16,12 @@ function StartAsync(func) {
 async function Sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
+
+/**
+ * Import another javascript file
+ * 
+ * @param {string} path path to your javascript file. If Src/a.js, input "/Src/a.js"
+ */
+function ImportScript(path) {
+    document.write("<script src=\"" + path + "\"></script>");
+}
