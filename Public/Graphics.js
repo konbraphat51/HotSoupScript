@@ -128,10 +128,10 @@ async function LoadImages(pathes) {
 //---------------------Not for using---------------------
 
 //get canvas
-const __canvas = document.getElementById("canvas");
+const __canvas = document.getElementById(__CANVAS_NAME);
 
 //using this canvas reference
-const __ctx = document.getElementById("canvas").getContext("2d");
+const __ctx = document.getElementById(__CANVAS_NAME).getContext("2d");
 __ctx.font = "30px Arial";
 
 //for waiting for loading

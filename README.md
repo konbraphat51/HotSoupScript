@@ -25,6 +25,8 @@ and, put this **under your main code `src` tag**:
 This tag call your `main()` async function. (The name should be `main()`)
   
 ### Coding
+Usable function is in `Public` folder. Check it out!
+  
 Functions starts with `__` means not intended to be used by you :(  
   
 Function starts with `async` requires `await`  
@@ -36,8 +38,11 @@ async function a(){...}
 await a();
 ```
   
+#### Settings
+If you want to change your HTML canvas id (default is `canvas`), modify `HotSoupScript/Public/Settings.js
+
 #### Graphics
-You may look at `HotSoupScript/Graphics.js`. 
+You may look at `HotSoupScript/Public/Graphics.js`. 
   
 Setting colors or any other parameter starts with `Set`,  
 and drawing textures starts with `Draw`
