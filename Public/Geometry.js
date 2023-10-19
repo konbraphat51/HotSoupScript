@@ -95,3 +95,32 @@ function NormalizeVec(vec) {
 
     return output;
 }
+
+/**
+ * Multiply a vector by a scalar.
+ * 
+ * @param scalar Should be a number, not a vector.
+ * @param vec The original vector won't be changed.
+ * @returns The multiplied vector.
+ */
+function MultiplyVec(scalar, vec) {
+    const dimention = vec.length;
+
+    var output = Array(dimention);
+    for (var i = 0; i < dimention; i++) {
+        output[i] = vec[i] * scalar;
+    }
+
+    return output;
+}
+
+/**
+ * Change the length of a vector with the same direction.
+ * 
+ * @param {*} vec the original vector won't be changed.
+ * @param {*} length The new length you want
+ * @returns The modified vector.
+ */
+function ChangeVecLength(vec, length) {
+    return MultiplyVec(length, NormalizeVec(vec));
+}
