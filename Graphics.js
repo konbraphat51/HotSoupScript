@@ -1,3 +1,5 @@
+// Graphics
+
 //canvas size
 const CANVAS_X = 800;
 const CANVAS_Y = 600;
@@ -58,62 +60,50 @@ function DrawCircle(center_x, center_y, radius) {
 /**
  * Draw a picture. 
  * 
- * Should be loaded by LoadPicture() in advance
+ * Should be loaded by LoadImages() in advance
  * 
  * @param picture_data  data loaded by LoadPicture()
  * @param width         width(x) of the picture drawing here. If -1, original size.
  * @param height        height(y) of the picture drawing here. If -1, original size
  */
-function DrawPicture(picture_data, posX, posY, width, height) {
-    ctx.drawImage(img, posX, posY, width, height);
+function DrawImage(picture_data, posX, posY, width, height) {
+    ctx.drawImage(picture_data, posX, posY, width, height);
 }
 
-//for waiting for loading
-var __lib___loaded = [];
-
 /**
- * Load picture data. Give this data to DrawPicture()
+ * Load picture data. Give this data to DrawPicture().
+ * This will wait until the picture is loaded. So you may load this in the first place.
+ * 
+ * BeCareful: if you want single picture data: (await LoadImages([path]))[0]
  *
  * @param {string[]} pathes      If you want to load "a.png" in B folder, input "/B/a.png". It should be a list
 */
-function LoadPictures(pathes) {
+async function LoadImages(pathes) {
     __lib___loaded = new Array(pathes.length);
     __lib___loaded.fill(false);
 
+    //output
+    var imgs = new Array(pathes.length);
+    
+    //load
     for (let i = 0; i < pathes.length; i++) {
+        //start loading image
         const img = new Image();
         img.src = pathes[i];
         img.loadingNum = i;
 
+        //report as loaded
         img.onload = function() {
             __lib___loaded[this.loadingNum] = true;
         }
+
+        imgs[i] = img;
     }
 
     //wait for loading
-    __WaitForLoaded();
+    await __WaitForLoaded();
 
-    return img;
-}
-
-function __WaitForLoaded() {
-    //busy wait
-    while (true) {
-        //check if all loaded
-        let loaded = true;
-        for (let i = 0; i < __lib___loaded.length; i++) {
-            if (!__lib___loaded[i]) {
-                loaded = false;
-                break;
-            }
-        }
-
-        if (loaded) {
-            break;
-        }
-    }
-
-    return
+    return imgs;
 }
 
 /**
@@ -128,4 +118,31 @@ function SetFont(text) {
  */
 function SetColor(color) {
     ctx.fillStyle = color;
+}
+
+//---------------------Not for using---------------------
+//for waiting for loading
+var __lib___loaded = [];
+
+async function __WaitForLoaded() {
+    //busy wait
+    while (true) {
+        //check if all loaded
+        let loaded = true;
+        for (let i = 0; i < __lib___loaded.length; i++) {
+            if (!__lib___loaded[i]) {
+                loaded = false;
+                break;
+            }
+        }
+
+        if (loaded) {
+            break;
+        }
+
+        //wait for 1ms
+        await Sleep(1);
+    }
+
+    return
 }
