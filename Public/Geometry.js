@@ -9,7 +9,7 @@ function GetDistance(x1, y1, x2, y2) {
 }
 
 /*
-# Vector
+# Vectors
 
 This library assume vector as an array.
 The lengh of the array is the dimension of the vector.
@@ -67,6 +67,30 @@ function DotVec(vec1, vec2) {
     var output = 0;
     for (var i = 0; i < dimention; i++) {
         output += vec1[i] * vec2[i];
+    }
+
+    return output;
+}
+
+/**
+ * Normalize a vector.
+ * 
+ * @param {*} vec The original vector won't be changed.
+ * @returns The normalized vector.
+ */
+function NormalizeVec(vec) {
+    const dimention = vec.length;
+
+    var output = CopyArray(vec);
+
+    var length = 0;
+    for (var i = 0; i < dimention; i++) {
+        length += Math.pow(output[i], 2);
+    }
+    length = Math.sqrt(length);
+
+    for (var i = 0; i < dimention; i++) {
+        output[i] /= length;
     }
 
     return output;

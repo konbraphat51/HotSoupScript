@@ -25,3 +25,11 @@ async function Sleep(ms) {
 function ImportScript(path) {
     document.write("<script src=\"" + path + "\"></script>");
 }
+
+/**
+ * Make a shallow copy of an array.
+ * If you don't do this, you may unexpectedly change the original array.
+ */
+function CopyArray(ar) {
+    return ar.slice();
+}
