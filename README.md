@@ -10,6 +10,10 @@ This is inspired by [HSP Language](https://hsp.tv/) which is widely used for kid
   
 Put this repository in your html-existing directory, and write below.
 ```html
+<!--Prepare canvas-->
+<canvas id="canvas" width="800" height="600"></canvas>
+
+<!--Call modules-->
 <script src="HotSoupScript/ModulesLoader.js"></script>
 ```
   
