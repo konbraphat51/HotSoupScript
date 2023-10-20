@@ -47,11 +47,26 @@ function EraceHTML(id) {
  */
 function PutNumberInputField(id, label, onChanged, value, min=-1e18, max=1e18, step = 1){
     const input_id = MakeInputID(id);
-    document.write("<p id=\""+ id +"\">"+label+": <input type=\"number\" id=\"" + input_id + "\" value=\"" + value + "\" min=\"" + min + "\" max=\"" + max + "\" step=\"" + step + "\" onchange=\""+ onChanged.name +"()\"></p>");
+     
+    //document.write("<p id=\""+ id +"\">"+label+": <input type=\"number\" id=\"" + input_id + "\" value=\"" + value + "\" min=\"" + min + "\" max=\"" + max + "\" step=\"" + step + "\" onchange=\""+ onChanged.name +"()\"></p>");
+    const p = document.createElement("p");
+    p.id = id;
+    const input = document.createElement("input");
+    input.type = "number";
+    input.id = input_id;
+    input.value = value;
+    input.min = min;
+    input.max = max;
+    input.step = step;
+    input.onchange = onChanged;
+    p.appendChild(document.createTextNode(label + ": "));
+    p.appendChild(input);
 
-    __RegisterElementShowing(id);
+    document.body.appendChild(p);
 
-    return [id, input_id]
+    __RegisterElementShowing(p);
+
+    return [id, input_id];
 }
 
 /**
@@ -73,9 +88,32 @@ function PutNumberInputFieldE(id, label, onChanged, value) {
     var exponent = Math.floor(Math.log10(value));
     var mantissa = value / (10**exponent);
 
-    document.write("<p id=\"" + id + "\">" + label + ": <input type=\"number\" id=\"" + input_id_mantissa + "\" value=\"" + mantissa + "\" onchange=\"" + onChanged.name + "()\"> e <input type=\"number\" id=\"" + input_id_exponent + "\" value=\"" + exponent + "\" onchange=\"" + onChanged.name + "()\" step=\"1\"></p>");
+    //document.write("<p id=\"" + id + "\">" + label + ": <input type=\"number\" id=\"" + input_id_mantissa + "\" value=\"" + mantissa + "\" onchange=\"" + onChanged.name + "()\"> e <input type=\"number\" id=\"" + input_id_exponent + "\" value=\"" + exponent + "\" onchange=\"" + onChanged.name + "()\" step=\"1\"></p>");
+    const p = document.createElement("p");
+    p.id = id;
+    const input_m = document.createElement("input");
+    input_m.type = "number";
+    input_m.id = input_id_mantissa;
+    input_m.value = mantissa;
+    input_m.onchange = onChanged;
+    input_m.min = -10;
+    input_m.max = 10;
+    const input_e = document.createElement("input");
+    input_e.type = "number";
+    input_e.id = input_id_exponent;
+    input_e.value = exponent;
+    input_e.onchange = onChanged;
+    input_e.min = -18;
+    input_e.max = 18;
+    input_e.step = 1;
+    p.appendChild(document.createTextNode(label + ": "));
+    p.appendChild(input_m);
+    p.appendChild(document.createTextNode(" e "));
+    p.appendChild(input_e);
 
-    __RegisterElementShowing(id);
+    document.body.appendChild(p);
+
+    __RegisterElementShowing(p);
 
     return [id, input_id_mantissa, input_id_exponent]
 }
@@ -158,9 +196,15 @@ function MakeExponentID(id) {
  * @param {*} onClicked     Function called when clicked
  */
 function PutButton(id, label, onClicked){
-    document.write("<button id=\"" + id + "\" onclick=\"" + onClicked.name + "()\">" + label + "</button>");
+    //document.write("<button id=\"" + id + "\" onclick=\"" + onClicked.name + "()\">" + label + "</button>");
+    const button = document.createElement("button");
+    button.id = id;
+    button.onclick = onClicked;
+    button.appendChild(document.createTextNode(label));
+    
+    document.body.appendChild(button);
 
-    __RegisterElementShowing(id);
+    __RegisterElementShowing(button);
 }
 
 //--------------------Not for users--------------------
@@ -168,8 +212,8 @@ function PutButton(id, label, onClicked){
 /**
  * Innerly memorize what is put.
  * 
- * @param {string} id   id of the HTML tag
+ * @param tag   HTML tag
  */
-function __RegisterElementShowing(id){
-    __elements_showing.push(document.getElementById(id));
+function __RegisterElementShowing(tag){
+    __elements_showing.push(tag);
 }

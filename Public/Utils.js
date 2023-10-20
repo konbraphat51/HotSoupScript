@@ -23,7 +23,10 @@ async function Sleep(ms) {
  * @param {string} path path to your javascript file. If Src/a.js, input "/Src/a.js"
  */
 function ImportScript(path) {
-    document.write("<script src=\"" + path + "\"></script>");
+    //document.write("<script src=\"" + path + "\"></script>");
+    const script = document.createElement('script');
+    script.src = path;
+    document.head.appendChild(script);
 }
 
 /**
