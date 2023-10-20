@@ -1,5 +1,37 @@
 //Functions for HTML control
 
+//elements showed by this library part.
+var __elements_showing = [];
+
+/**
+ * Erace all HTML elements made by this library.
+ */
+function EraceAllHTML(){
+    for(let i = 0; i < __elements_showing.length; i++){
+        __elements_showing[i].remove();
+    }
+
+    //reset list
+    __elements_showing = [];
+}
+
+/**
+ * Erace the HTML element.
+ * 
+ * @param {string} id id of the HTML element
+ */
+function EraceHTML(id) {
+    document.getElementById(id).remove();
+
+    //remove from list
+    for(let i = 0; i < __elements_showing.length; i++){
+        if (__elements_showing[i].id == id){
+            __elements_showing.splice(i, 1);
+            break;
+        }
+    }
+}
+
 /**
  * Put a Number Input Field in the HTML.
  * Could be useful to control the simulation parameters.
@@ -16,6 +48,8 @@
 function PutNumberInputField(id, label, onChanged, value, min=-1e18, max=1e18, step = 1){
     const input_id = MakeInputID(id);
     document.write("<p id=\""+ id +"\">"+label+": <input type=\"number\" id=\"" + input_id + "\" value=\"" + value + "\" min=\"" + min + "\" max=\"" + max + "\" step=\"" + step + "\" onchange=\""+ onChanged.name +"()\"></p>");
+
+    __RegisterElementShowing(id);
 
     return [id, input_id]
 }
@@ -40,6 +74,8 @@ function PutNumberInputFieldE(id, label, onChanged, value) {
     var mantissa = value / (10**exponent);
 
     document.write("<p id=\"" + id + "\">" + label + ": <input type=\"number\" id=\"" + input_id_mantissa + "\" value=\"" + mantissa + "\" onchange=\"" + onChanged.name + "()\"> e <input type=\"number\" id=\"" + input_id_exponent + "\" value=\"" + exponent + "\" onchange=\"" + onChanged.name + "()\" step=\"1\"></p>");
+
+    __RegisterElementShowing(id);
 
     return [id, input_id_mantissa, input_id_exponent]
 }
@@ -112,4 +148,28 @@ function MakeMantissaID(id) {
  */
 function MakeExponentID(id) {
     return id + "_input_e";
+}
+
+/**
+ * Put button invoked when clicked.
+ * 
+ * @param {*} id            ID of the HTML tag
+ * @param {*} label         Label written on the button
+ * @param {*} onClicked     Function called when clicked
+ */
+function PutButton(id, label, onClicked){
+    document.write("<button id=\"" + id + "\" onclick=\"" + onClicked.name + "()\">" + label + "</button>");
+
+    __RegisterElementShowing(id);
+}
+
+//--------------------Not for users--------------------
+
+/**
+ * Innerly memorize what is put.
+ * 
+ * @param {string} id   id of the HTML tag
+ */
+function __RegisterElementShowing(id){
+    __elements_showing.push(document.getElementById(id));
 }
