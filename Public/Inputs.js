@@ -7,8 +7,8 @@
  * @returns {boolean} Whether the key is pressed.
  */
 function GetKey(keyCode) {
-    if (keyCode in __keys_pressed){
-        __keys_pressed[keyCode];
+    if (keyCode in __HSS_Input_PRIVATE.keys_pressed){
+        __HSS_Input_PRIVATE.keys_pressed[keyCode];
     }else{
         //not ever pushed before
         return false;
@@ -21,88 +21,96 @@ function GetKey(keyCode) {
  * @returns {boolean} Whether the mouse is pressed.
  */
 function GetMouse() {
-    return __mouse;
+    return __HSS_Input_PRIVATE.mouse;
 }
 
 /**
  * Returns mouse position in canvas.
  */
 function GetMouseX() {
-    return __mouse_x;
+    return __HSS_Input_PRIVATE.mouse_x;
 }
 
 /**
  * Returns mouse position in canvas.
 */
 function GetMouseY() {
-    return __mouse_y;
+    return __HSS_Input_PRIVATE.mouse_y;
 }
 
 //---------------------Not for using---------------------
-/**
- * dictionary for judge keys pushed
- */
-var __keys_pressed = {};
 
 /**
- * if mouse/touch is currently pressed or not
+ * Not for use
  */
-var __mouse = false;
+class __HSS_Input_Private {
+    /**
+     * dictionary for judge keys pushed
+     */
+    keys_pressed = {};
 
-/**
- * Where the mouse is in canvas
- */
-var __mouse_x = 0;
+    /**
+     * if mouse/touch is currently pressed or not
+     */
+    mouse = false;
 
-/**
- * Where the mouse is in canvas
- */
-var __mouse_y = 0;
+    /**
+     * Where the mouse is in canvas
+     */
+    mouse_x = 0;
 
-function __PrepareInput() {
-    const canvas = document.getElementById(__CANVAS_NAME);
+    /**
+     * Where the mouse is in canvas
+     */
+    mouse_y = 0;
 
-    canvas.addEventListener("keydown", function (e) {
-        __keys_pressed[e.key] = true;
-    });
+    PrepareInput() {
+        const canvas = document.getElementById(__CANVAS_NAME);
     
-    canvas.addEventListener("keyup", function (e) {
-        __keys_pressed[e.key] = false;
-    });
+        canvas.addEventListener("keydown", function (e) {
+            __keys_pressed[e.key] = true;
+        });
+        
+        canvas.addEventListener("keyup", function (e) {
+            __keys_pressed[e.key] = false;
+        });
+        
+        //for mouse
+        canvas.addEventListener("mousedown", function (e) {
+            __mouse = true;
+            __GetMousePosition(e);
+        });
+        
+        canvas.addEventListener("mouseup", function (e) {
+            __mouse = false;
+        });
+        
+        canvas.addEventListener("mousemove", function (e) {
+            __GetMousePosition(e);
+        });
     
-    //for mouse
-    canvas.addEventListener("mousedown", function (e) {
-        __mouse = true;
-        __GetMousePosition(e);
-    });
+        //for touch
+        canvas.addEventListener("touchstart", function (e) {
+            __mouse = true;
+            __GetMousePosition(e.touches[0]);
+        });
     
-    canvas.addEventListener("mouseup", function (e) {
-        __mouse = false;
-    });
+        canvas.addEventListener("touchend", function (e) {
+            __mouse = false;
+        });
     
-    canvas.addEventListener("mousemove", function (e) {
-        __GetMousePosition(e);
-    });
+        canvas.addEventListener("touchmove", function (e) {
+            __GetMousePosition(e.touches[0]);
+        });
+    }
 
-    //for touch
-    canvas.addEventListener("touchstart", function (e) {
-        __mouse = true;
-        __GetMousePosition(e.touches[0]);
-    });
-
-    canvas.addEventListener("touchend", function (e) {
-        __mouse = false;
-    });
-
-    canvas.addEventListener("touchmove", function (e) {
-        __GetMousePosition(e.touches[0]);
-    });
+    GetMousePosition(e) {
+        //must be in-canvas event
+        __mouse_x = e.clientX;
+        __mouse_y = e.clientY;
+    }
 }
 
-function __GetMousePosition(e) {
-    //must be in-canvas event
-    __mouse_x = e.clientX;
-    __mouse_y = e.clientY;
-}
+const __HSS_Input_PRIVATE = new __HSS_Input_Private();
 
-__PrepareInput();
+__HSS_Input_PRIVATE.PrepareInput();

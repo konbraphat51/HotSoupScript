@@ -4,23 +4,25 @@
  * Set canvas size
  */
 function SetCanvasSize(width, height) {
-    __canvas.width = width;
-    __canvas.height = height;
-    __GRAPHICS_SETTINGS.SetSize(width, height);
+    __HSS_GRAPHICS_PRIVATE.canvas.width = width;
+    __HSS_GRAPHICS_PRIVATE.canvas.height = height;
+
+    __HSS_GRAPHICS_PRIVATE.width = width;
+    __HSS_GRAPHICS_PRIVATE.height = height;
 }
 
 /**
  * Set font for next text
  */
 function SetFont(text) {
-    __ctx.font = text;
+    __HSS_HTML_PRIVATE.ctx.font = text;
 }
 
 /**
  * Set color for next texture
  */
 function SetColor(color) {
-    __ctx.fillStyle = color;
+    __HSS_HTML_PRIVATE.ctx.fillStyle = color;
 }
 
 /**
@@ -29,7 +31,7 @@ function SetColor(color) {
  * @returns [width, height]
  */
 function GetCanvasSize() {
-    return [__GRAPHICS_SETTINGS.width, __GRAPHICS_SETTINGS.height]
+    return [__HSS_GRAPHICS_PRIVATE.width, __HSS_GRAPHICS_PRIVATE.height]
 }
 
 /**
@@ -40,7 +42,7 @@ function GetCanvasSize() {
  * @param y Where you want to write it: y position 
  */
 function DrawText(text, x, y) {
-    __ctx.fillText(text, x, y);
+    __HSS_HTML_PRIVATE.ctx.fillText(text, x, y);
 }
 
 /**
@@ -53,27 +55,27 @@ function DrawText(text, x, y) {
  * @param line_width Width of line
  */
 function DrawLine(x1, y1, x2, y2, line_width) {
-    __ctx.beginPath();
-    __ctx.moveTo(x1, y1);
-    __ctx.lineTo(x2,y2);
-    __ctx.line_width = line_width;
-    __ctx.stroke();
+    __HSS_HTML_PRIVATE.ctx.beginPath();
+    __HSS_HTML_PRIVATE.ctx.moveTo(x1, y1);
+    __HSS_HTML_PRIVATE.ctx.lineTo(x2,y2);
+    __HSS_HTML_PRIVATE.ctx.line_width = line_width;
+    __HSS_HTML_PRIVATE.ctx.stroke();
 }
 
 /**
  * Draw a rectangle
  */
 function DrawRect(lefttop_x, lefttop_y, rightbottom_x, rightbottom_y) {
-    __ctx.fillRect(lefttop_x, lefttop_y, rightbottom_x-lefttop_x, rightbottom_y-lefttop_y);
+    __HSS_HTML_PRIVATE.ctx.fillRect(lefttop_x, lefttop_y, rightbottom_x-lefttop_x, rightbottom_y-lefttop_y);
 }
 
 /**
  * Draw a circle
  */
 function DrawCircle(center_x, center_y, radius) {
-    __ctx.beginPath();
-    __ctx.arc(center_x, center_y, radius, 0, 2 * Math.PI);
-    __ctx.fill();
+    __HSS_HTML_PRIVATE.ctx.beginPath();
+    __HSS_HTML_PRIVATE.ctx.arc(center_x, center_y, radius, 0, 2 * Math.PI);
+    __HSS_HTML_PRIVATE.ctx.fill();
 }
 
 /**
@@ -86,7 +88,7 @@ function DrawCircle(center_x, center_y, radius) {
  * @param height        height(y) of the picture drawing here. If -1, original size
  */
 function DrawImage(picture_data, posX, posY, width, height) {
-    __ctx.drawImage(picture_data, posX, posY, width, height);
+    __HSS_HTML_PRIVATE.ctx.drawImage(picture_data, posX, posY, width, height);
 }
 
 /**
@@ -98,8 +100,8 @@ function DrawImage(picture_data, posX, posY, width, height) {
  * @param {string[]} pathes      If you want to load "a.png" in B folder, input "/B/a.png". It should be a list
 */
 async function LoadImages(pathes) {
-    __lib___loaded = new Array(pathes.length);
-    __lib___loaded.fill(false);
+    __HSS_HTML_PRIVATE.images_loaded = new Array(pathes.length);
+    __HSS_HTML_PRIVATE.images_loaded.fill(false);
 
     //output
     var imgs = new Array(pathes.length);
@@ -113,74 +115,58 @@ async function LoadImages(pathes) {
 
         //report as loaded
         img.onload = function() {
-            __lib___loaded[this.loadingNum] = true;
+            __HSS_HTML_PRIVATE.images_loaded[this.loadingNum] = true;
         }
 
         imgs[i] = img;
     }
 
     //wait for loading
-    await __WaitForLoaded();
+    await __HSS_HTML_PRIVATE.WaitForLoaded();
 
     return imgs;
 }
 
 //---------------------Not for using---------------------
 
-//get canvas
-const __canvas = document.getElementById(__CANVAS_NAME);
+/**
+ * Not for using
+ */
+class __HSS_Graphics_Private {
+    height = 600;
+    width = 800;
 
-//using this canvas reference
-const __ctx = document.getElementById(__CANVAS_NAME).getContext("2d");
-__ctx.font = "30px Arial";
+    //get canvas
+    canvas = document.getElementById(__CANVAS_NAME);
 
-//for waiting for loading
-var __lib___loaded = [];
+    //using this canvas reference
+    ctx = document.getElementById(__CANVAS_NAME).getContext("2d");
 
-async function __WaitForLoaded() {
-    //busy wait
-    while (true) {
-        //check if all loaded
-        let loaded = true;
-        for (let i = 0; i < __lib___loaded.length; i++) {
-            if (!__lib___loaded[i]) {
-                loaded = false;
+    //for waiting for loading
+    lib_loaded = [];
+
+    async WaitForLoaded() {
+        //busy wait
+        while (true) {
+            //check if all loaded
+            let loaded = true;
+            for (let i = 0; i < this.images_loaded.length; i++) {
+                if (!this.lib_loaded[i]) {
+                    loaded = false;
+                    break;
+                }
+            }
+    
+            if (loaded) {
                 break;
             }
+    
+            //wait for 1ms
+            await Sleep(1);
         }
-
-        if (loaded) {
-            break;
-        }
-
-        //wait for 1ms
-        await Sleep(1);
-    }
-
-    return
-}
-
-class __GraphicsSettings {
-    #width;
-    #height;
-
-    constructor() {
-        this.#width = 800;
-        this.#height = 600;
-    }
-
-    get width() {
-        return this.#width;
-    }
-
-    get height() {
-        return this.#height;
-    }
-
-    SetSize(width, height) {
-        this.#width = width;
-        this.#height = height;
+    
+        return
     }
 }
 
-const __GRAPHICS_SETTINGS = new __GraphicsSettings();
+const __HSS_GRAPHICS_PRIVATE = new __HSS_Graphics_Private();

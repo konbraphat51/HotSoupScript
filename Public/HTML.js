@@ -1,18 +1,15 @@
 //Functions for HTML control
 
-//elements showed by this library part.
-var __elements_showing = [];
-
 /**
  * Erace all HTML elements made by this library.
  */
 function EraceAllHTML(){
-    for(let i = 0; i < __elements_showing.length; i++){
-        __elements_showing[i].remove();
+    for(let i = 0; i < __HSS_HTML_PRIVATE.elements_showing.length; i++){
+        __HSS_HTML_PRIVATE.elements_showing[i].remove();
     }
 
     //reset list
-    __elements_showing = [];
+    __HSS_HTML_PRIVATE.elements_showing = [];
 }
 
 /**
@@ -24,9 +21,9 @@ function EraceHTML(id) {
     document.getElementById(id).remove();
 
     //remove from list
-    for(let i = 0; i < __elements_showing.length; i++){
-        if (__elements_showing[i].id == id){
-            __elements_showing.splice(i, 1);
+    for(let i = 0; i < __HSS_HTML_PRIVATE.elements_showing.length; i++){
+        if (__HSS_HTML_PRIVATE.elements_showing[i].id == id){
+            __HSS_HTML_PRIVATE.elements_showing.splice(i, 1);
             break;
         }
     }
@@ -64,7 +61,7 @@ function PutNumberInputField(id, label, onChanged, value, min=-1e18, max=1e18, s
 
     document.body.appendChild(p);
 
-    __RegisterElementShowing(p);
+    __HSS_HTML_PRIVATE.RegisterElementShowing(p);
 
     return [id, input_id];
 }
@@ -113,7 +110,7 @@ function PutNumberInputFieldE(id, label, onChanged, value) {
 
     document.body.appendChild(p);
 
-    __RegisterElementShowing(p);
+    __HSS_HTML_PRIVATE.RegisterElementShowing(p);
 
     return [id, input_id_mantissa, input_id_exponent]
 }
@@ -204,7 +201,7 @@ function PutButton(id, label, onClicked){
     
     document.body.appendChild(button);
 
-    __RegisterElementShowing(button);
+    __HSS_HTML_PRIVATE.RegisterElementShowing(button);
 }
 
 /**
@@ -230,10 +227,15 @@ function StopAllTouchDefaults() {
 //--------------------Not for users--------------------
 
 /**
- * Innerly memorize what is put.
- * 
- * @param tag   HTML tag
+ * Not for using.
  */
-function __RegisterElementShowing(tag){
-    __elements_showing.push(tag);
+class __HSS_HTML_Private {
+    //elements showed by this library part.
+    elements_showing = [];
+
+    RegisterElementShowing(tag){
+        this.elements_showing.push(tag);
+    }    
 }
+
+const __HSS_HTML_PRIVATE = new __HSS_HTML_Private();
