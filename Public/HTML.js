@@ -35,14 +35,14 @@ function EraceHTML(id) {
  * 
  * @param id        id of the P tag. The id of the input tag will be "{id}_input"
  * @param label      label written left of the input field
- * @param onChanged functionCalled when changed (no parameter given to this function)
  * @param value inital value
  * @param min   minimal value
  * @param max   maximum value
  * @param step  value interval
+ * @param onChanged functionCalled when changed. This will be multi-thread, so not recommended for beginners (Use IsHTMLUpdated() and GetNumberInputField())
  * @returns [id of p tag, id of input tag]
  */
-function PutNumberInputField(id, label, onChanged, value, min=-1e18, max=1e18, step = 1){
+function PutNumberInputField(id, label, value, min=-1e18, max=1e18, step = 1, onChanged = null){
     const input_id = MakeInputID(id);
      
     //document.write("<p id=\""+ id +"\">"+label+": <input type=\"number\" id=\"" + input_id + "\" value=\"" + value + "\" min=\"" + min + "\" max=\"" + max + "\" step=\"" + step + "\" onchange=\""+ onChanged.name +"()\"></p>");
@@ -55,7 +55,9 @@ function PutNumberInputField(id, label, onChanged, value, min=-1e18, max=1e18, s
     input.min = min;
     input.max = max;
     input.step = step;
-    input.onchange = onChanged;
+    if (onchange != null) {
+        input.onchange = onChanged;
+    }
     p.appendChild(document.createTextNode(label + ": "));
     p.appendChild(input);
 
@@ -73,11 +75,11 @@ function PutNumberInputField(id, label, onChanged, value, min=-1e18, max=1e18, s
  * 
  * @param id    id of the P tag. The id of the input tag will be: mantissa->"{id}_input_m", exponent->"{id}_input_e"
  * @param label label written left of the input field
- * @param onChanged functionCalled when changed (no parameter given to this function)
  * @param value inital value
+ * @param onChanged functionCalled when changed (no parameter given to this function) This will be multi-thread, so not recommended for beginners (Use IsHTMLUpdated() and GetNumberInputFieldE())
  * @returns [id of p tag, id of input tag of mantissa, id of input tag of exponent]
  */
-function PutNumberInputFieldE(id, label, onChanged, value) {
+function PutNumberInputFieldE(id, label, value, onChanged = null) {
     const input_id_mantissa = MakeMantissaID(id);
     const input_id_exponent = MakeExponentID(id);
 
@@ -92,7 +94,9 @@ function PutNumberInputFieldE(id, label, onChanged, value) {
     input_m.type = "number";
     input_m.id = input_id_mantissa;
     input_m.value = mantissa;
-    input_m.onchange = onChanged;
+    if (onChanged != null) {
+        input_m.onchange = onChanged;
+    }
     input_m.min = -10;
     input_m.max = 10;
     const input_e = document.createElement("input");
@@ -188,15 +192,17 @@ function MakeExponentID(id) {
 /**
  * Put button invoked when clicked.
  * 
- * @param {*} id            ID of the HTML tag
- * @param {*} label         Label written on the button
- * @param {*} onClicked     Function called when clicked
+ * @param {string} id            ID of the HTML tag
+ * @param {string} label         Label written on the button
+ * @param {string} onClicked     Function called when clicked This will be multi-thread, so not recommended for beginners (Use IsHTMLUpdated() and GetHTMLButton())
  */
-function PutButton(id, label, onClicked){
+function PutButton(id, label, onClicked = null){
     //document.write("<button id=\"" + id + "\" onclick=\"" + onClicked.name + "()\">" + label + "</button>");
     const button = document.createElement("button");
     button.id = id;
-    button.onclick = onClicked;
+    if (onClicked != null) {
+        button.onclick = onClicked;
+    }
     button.appendChild(document.createTextNode(label));
     
     document.body.appendChild(button);
