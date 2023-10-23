@@ -207,6 +207,24 @@ function PutButton(id, label, onClicked){
     __RegisterElementShowing(button);
 }
 
+/**
+ * Prevent default touch events like long-touch-selecting, scroling...
+ */
+function StopAllTouchDefaults() {
+    document.body.addEventListener("touchstart", function (e) {
+        e.preventDefault();
+    }, { passive: false });
+    document.body.addEventListener("touchmove", function (e) {
+        e.preventDefault();
+    }, { passive: false });
+    document.body.addEventListener("touchend", function (e) {
+        e.preventDefault();
+    }, { passive: false });
+    document.body.addEventListener("touchcancel", function (e) {
+        e.preventDefault();
+    }, { passive: false });
+}
+
 //--------------------Not for users--------------------
 
 /**
