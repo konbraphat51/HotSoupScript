@@ -39,33 +39,70 @@ function GetMouseY() {
 }
 
 //---------------------Not for using---------------------
-//dictionary for judge keys pushed
+/**
+ * dictionary for judge keys pushed
+ */
 var __keys_pressed = {};
 
-document.addEventListener("keydown", function (e) {
-    __keys_pressed[e.key] = true;
-});
-
-document.addEventListener("keyup", function (e) {
-    __keys_pressed[e.key] = false;
-});
-
+/**
+ * if mouse/touch is currently pressed or not
+ */
 var __mouse = false;
-document.addEventListener("mousedown", function (e) {
-    __mouse = true;
-});
 
-document.addEventListener("mouseup", function (e) {
-    __mouse = false;
-});
-
+/**
+ * Where the mouse is in canvas
+ */
 var __mouse_x = 0;
+
+/**
+ * Where the mouse is in canvas
+ */
 var __mouse_y = 0;
 
-document.addEventListener("mousemove", function (e) {
+function __PrepareInput() {
     const canvas = document.getElementById(__CANVAS_NAME);
-    const rect = canvas.getBoundingClientRect();
 
-    __mouse_x = e.clientX - rect.left;
-    __mouse_y = e.clientY - rect.top;
-});
+    canvas.addEventListener("keydown", function (e) {
+        __keys_pressed[e.key] = true;
+    });
+    
+    canvas.addEventListener("keyup", function (e) {
+        __keys_pressed[e.key] = false;
+    });
+    
+    //for mouse
+    canvas.addEventListener("mousedown", function (e) {
+        __mouse = true;
+        __GetMousePosition(e);
+    });
+    
+    canvas.addEventListener("mouseup", function (e) {
+        __mouse = false;
+    });
+    
+    canvas.addEventListener("mousemove", function (e) {
+        __GetMousePosition(e);
+    });
+
+    //for touch
+    canvas.addEventListener("touchstart", function (e) {
+        __mouse = true;
+        __GetMousePosition(e.touches[0]);
+    });
+
+    canvas.addEventListener("touchend", function (e) {
+        __mouse = false;
+    });
+
+    canvas.addEventListener("touchmove", function (e) {
+        __GetMousePosition(e.touches[0]);
+    });
+}
+
+function __GetMousePosition(e) {
+    //must be in-canvas event
+    __mouse_x = e.clientX;
+    __mouse_y = e.clientY;
+}
+
+__PrepareInput();

@@ -211,16 +211,18 @@ function PutButton(id, label, onClicked){
  * Prevent default touch events like long-touch-selecting, scroling...
  */
 function StopAllTouchDefaults() {
-    document.body.addEventListener("touchstart", function (e) {
+    const canvas = document.getElementById(__CANVAS_NAME);
+
+    canvas.addEventListener("touchstart", function (e) {
         e.preventDefault();
     }, { passive: false });
-    document.body.addEventListener("touchmove", function (e) {
+    canvas.addEventListener("touchmove", function (e) {
         e.preventDefault();
     }, { passive: false });
-    document.body.addEventListener("touchend", function (e) {
+    canvas.addEventListener("touchend", function (e) {
         e.preventDefault();
     }, { passive: false });
-    document.body.addEventListener("touchcancel", function (e) {
+    canvas.addEventListener("touchcancel", function (e) {
         e.preventDefault();
     }, { passive: false });
 }
