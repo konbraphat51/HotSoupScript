@@ -68,46 +68,46 @@ class __HSS_Input_Private {
         const canvas = document.getElementById(__CANVAS_NAME);
     
         canvas.addEventListener("keydown", function (e) {
-            __keys_pressed[e.key] = true;
+            __HSS_Input_PRIVATE.keys_pressed[e.key] = true;
         });
         
         canvas.addEventListener("keyup", function (e) {
-            __keys_pressed[e.key] = false;
+            __HSS_Input_PRIVATE.keys_pressed[e.key] = false;
         });
         
         //for mouse
         canvas.addEventListener("mousedown", function (e) {
-            __mouse = true;
-            __GetMousePosition(e);
+            __HSS_Input_PRIVATE.mouse = true;
+            __HSS_Input_PRIVATE.GetMousePosition(e);
         });
         
         canvas.addEventListener("mouseup", function (e) {
-            __mouse = false;
+            __HSS_Input_PRIVATE.mouse = false;
         });
         
         canvas.addEventListener("mousemove", function (e) {
-            __GetMousePosition(e);
+            __HSS_Input_PRIVATE.GetMousePosition(e);
         });
     
         //for touch
         canvas.addEventListener("touchstart", function (e) {
-            __mouse = true;
-            __GetMousePosition(e.touches[0]);
+            __HSS_Input_PRIVATE.mouse = true;
+            __HSS_Input_PRIVATE.GetMousePosition(e.touches[0]);
         });
     
         canvas.addEventListener("touchend", function (e) {
-            __mouse = false;
+            __HSS_Input_PRIVATE.mouse = false;
         });
     
         canvas.addEventListener("touchmove", function (e) {
-            __GetMousePosition(e.touches[0]);
+            __HSS_Input_PRIVATE.GetMousePosition(e.touches[0]);
         });
     }
 
     GetMousePosition(e) {
         //must be in-canvas event
-        __mouse_x = e.clientX;
-        __mouse_y = e.clientY;
+        __HSS_Input_PRIVATE.mouse_x = e.clientX;
+        __HSS_Input_PRIVATE.mouse_y = e.clientY;
     }
 }
 

@@ -15,14 +15,14 @@ function SetCanvasSize(width, height) {
  * Set font for next text
  */
 function SetFont(text) {
-    __HSS_HTML_PRIVATE.ctx.font = text;
+    __HSS_GRAPHICS_PRIVATE.ctx.font = text;
 }
 
 /**
  * Set color for next texture
  */
 function SetColor(color) {
-    __HSS_HTML_PRIVATE.ctx.fillStyle = color;
+    __HSS_GRAPHICS_PRIVATE.ctx.fillStyle = color;
 }
 
 /**
@@ -42,7 +42,7 @@ function GetCanvasSize() {
  * @param y Where you want to write it: y position 
  */
 function DrawText(text, x, y) {
-    __HSS_HTML_PRIVATE.ctx.fillText(text, x, y);
+    __HSS_GRAPHICS_PRIVATE.ctx.fillText(text, x, y);
 }
 
 /**
@@ -55,27 +55,27 @@ function DrawText(text, x, y) {
  * @param line_width Width of line
  */
 function DrawLine(x1, y1, x2, y2, line_width) {
-    __HSS_HTML_PRIVATE.ctx.beginPath();
-    __HSS_HTML_PRIVATE.ctx.moveTo(x1, y1);
-    __HSS_HTML_PRIVATE.ctx.lineTo(x2,y2);
-    __HSS_HTML_PRIVATE.ctx.line_width = line_width;
-    __HSS_HTML_PRIVATE.ctx.stroke();
+    __HSS_GRAPHICS_PRIVATE.ctx.beginPath();
+    __HSS_GRAPHICS_PRIVATE.ctx.moveTo(x1, y1);
+    __HSS_GRAPHICS_PRIVATE.ctx.lineTo(x2,y2);
+    __HSS_GRAPHICS_PRIVATE.ctx.line_width = line_width;
+    __HSS_GRAPHICS_PRIVATE.ctx.stroke();
 }
 
 /**
  * Draw a rectangle
  */
 function DrawRect(lefttop_x, lefttop_y, rightbottom_x, rightbottom_y) {
-    __HSS_HTML_PRIVATE.ctx.fillRect(lefttop_x, lefttop_y, rightbottom_x-lefttop_x, rightbottom_y-lefttop_y);
+    __HSS_GRAPHICS_PRIVATE.ctx.fillRect(lefttop_x, lefttop_y, rightbottom_x-lefttop_x, rightbottom_y-lefttop_y);
 }
 
 /**
  * Draw a circle
  */
 function DrawCircle(center_x, center_y, radius) {
-    __HSS_HTML_PRIVATE.ctx.beginPath();
-    __HSS_HTML_PRIVATE.ctx.arc(center_x, center_y, radius, 0, 2 * Math.PI);
-    __HSS_HTML_PRIVATE.ctx.fill();
+    __HSS_GRAPHICS_PRIVATE.ctx.beginPath();
+    __HSS_GRAPHICS_PRIVATE.ctx.arc(center_x, center_y, radius, 0, 2 * Math.PI);
+    __HSS_GRAPHICS_PRIVATE.ctx.fill();
 }
 
 /**
@@ -88,7 +88,7 @@ function DrawCircle(center_x, center_y, radius) {
  * @param height        height(y) of the picture drawing here. If -1, original size
  */
 function DrawImage(picture_data, posX, posY, width, height) {
-    __HSS_HTML_PRIVATE.ctx.drawImage(picture_data, posX, posY, width, height);
+    __HSS_GRAPHICS_PRIVATE.ctx.drawImage(picture_data, posX, posY, width, height);
 }
 
 /**
@@ -100,8 +100,8 @@ function DrawImage(picture_data, posX, posY, width, height) {
  * @param {string[]} pathes      If you want to load "a.png" in B folder, input "/B/a.png". It should be a list
 */
 async function LoadImages(pathes) {
-    __HSS_HTML_PRIVATE.images_loaded = new Array(pathes.length);
-    __HSS_HTML_PRIVATE.images_loaded.fill(false);
+    __HSS_GRAPHICS_PRIVATE.images_loaded = new Array(pathes.length);
+    __HSS_GRAPHICS_PRIVATE.images_loaded.fill(false);
 
     //output
     var imgs = new Array(pathes.length);
@@ -115,14 +115,14 @@ async function LoadImages(pathes) {
 
         //report as loaded
         img.onload = function() {
-            __HSS_HTML_PRIVATE.images_loaded[this.loadingNum] = true;
+            __HSS_GRAPHICS_PRIVATE.images_loaded[this.loadingNum] = true;
         }
 
         imgs[i] = img;
     }
 
     //wait for loading
-    await __HSS_HTML_PRIVATE.WaitForLoaded();
+    await __HSS_GRAPHICS_PRIVATE.WaitForLoaded();
 
     return imgs;
 }
@@ -150,8 +150,8 @@ class __HSS_Graphics_Private {
         while (true) {
             //check if all loaded
             let loaded = true;
-            for (let i = 0; i < this.images_loaded.length; i++) {
-                if (!this.lib_loaded[i]) {
+            for (let i = 0; i < __HSS_GRAPHICS_PRIVATE.images_loaded.length; i++) {
+                if (!__HSS_GRAPHICS_PRIVATE.images_loaded[i]) {
                     loaded = false;
                     break;
                 }
