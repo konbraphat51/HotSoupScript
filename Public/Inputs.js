@@ -118,9 +118,11 @@ class __HSS_Input_Private {
     }
 
     GetMousePosition(e) {
+        const canvas = document.getElementById(__CANVAS_NAME);
+
         //must be in-canvas event
-        __HSS_Input_PRIVATE.mouse_x = e.clientX;
-        __HSS_Input_PRIVATE.mouse_y = e.clientY;
+        __HSS_Input_PRIVATE.mouse_x = e.clientX - canvas.getBoundingClientRect().left;
+        __HSS_Input_PRIVATE.mouse_y = e.clientY - canvas.getBoundingClientRect().top;
     }
 }
 
