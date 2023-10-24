@@ -8,15 +8,15 @@
  */
 function SetCanvasSize(width, height = null) {
     if (Array.isArray(width)) {
-        height = width[1];
-        width = width[0];
+        height = width[1]
+        width = width[0]
     }
 
-    __HSS_GRAPHICS_PRIVATE.canvas.width = width;
-    __HSS_GRAPHICS_PRIVATE.canvas.height = height;
+    __HSS_GRAPHICS_PRIVATE.canvas.width = width
+    __HSS_GRAPHICS_PRIVATE.canvas.height = height
 
-    __HSS_GRAPHICS_PRIVATE.width = width;
-    __HSS_GRAPHICS_PRIVATE.height = height;
+    __HSS_GRAPHICS_PRIVATE.width = width
+    __HSS_GRAPHICS_PRIVATE.height = height
 }
 
 /**
@@ -25,7 +25,7 @@ function SetCanvasSize(width, height = null) {
  * @param {string} text Font text
  */
 function SetFont(text) {
-    __HSS_GRAPHICS_PRIVATE.ctx.font = text;
+    __HSS_GRAPHICS_PRIVATE.ctx.font = text
 }
 
 /**
@@ -34,7 +34,7 @@ function SetFont(text) {
  * @param {string} color Color text
  */
 function SetColor(color) {
-    __HSS_GRAPHICS_PRIVATE.ctx.fillStyle = color;
+    __HSS_GRAPHICS_PRIVATE.ctx.fillStyle = color
 }
 
 /**
@@ -55,11 +55,11 @@ function GetCanvasSize() {
  */
 function DrawText(text, x, y = null) {
     if (Array.isArray(x)) {
-        y = x[1];
-        x = x[0];
+        y = x[1]
+        x = x[0]
     }
 
-    __HSS_GRAPHICS_PRIVATE.ctx.fillText(text, x, y);
+    __HSS_GRAPHICS_PRIVATE.ctx.fillText(text, x, y)
 }
 
 /**
@@ -72,22 +72,22 @@ function DrawText(text, x, y = null) {
  * @param {number} line_width Width of line
  */
 function DrawLine(x1, y1, x2, y2, line_width) {
-    __HSS_GRAPHICS_PRIVATE.ctx.beginPath();
-    __HSS_GRAPHICS_PRIVATE.ctx.moveTo(x1, y1);
-    __HSS_GRAPHICS_PRIVATE.ctx.lineTo(x2,y2);
-    __HSS_GRAPHICS_PRIVATE.ctx.line_width = line_width;
-    __HSS_GRAPHICS_PRIVATE.ctx.stroke();
+    __HSS_GRAPHICS_PRIVATE.ctx.beginPath()
+    __HSS_GRAPHICS_PRIVATE.ctx.moveTo(x1, y1)
+    __HSS_GRAPHICS_PRIVATE.ctx.lineTo(x2,y2)
+    __HSS_GRAPHICS_PRIVATE.ctx.line_width = line_width
+    __HSS_GRAPHICS_PRIVATE.ctx.stroke()
 }
 
 /**
- * Draw a line by using 2 vectors. Same as DrawLine();
+ * Draw a line by using 2 vectors. Same as DrawLine()
  * 
  * @param {number[]} vec1 position 1 [x, y]
  * @param {number[]} vec2 position 2 [x, y]
  * @param {number} line_width width of line 
  */
 function DrawLineByVec(vec1, vec2, line_width) {
-    DrawLine(vec1[0], vec1[1], vec2[0], vec2[1], line_width);
+    DrawLine(vec1[0], vec1[1], vec2[0], vec2[1], line_width)
 }
 
 /**
@@ -99,17 +99,17 @@ function DrawLineByVec(vec1, vec2, line_width) {
  * @param {number} rightbottom_y right bottom point: y position
  */
 function DrawRect(lefttop_x, lefttop_y, rightbottom_x, rightbottom_y) {
-    __HSS_GRAPHICS_PRIVATE.ctx.fillRect(lefttop_x, lefttop_y, rightbottom_x-lefttop_x, rightbottom_y-lefttop_y);
+    __HSS_GRAPHICS_PRIVATE.ctx.fillRect(lefttop_x, lefttop_y, rightbottom_x-lefttop_x, rightbottom_y-lefttop_y)
 }
 
 /**
- * Draw a rectangle by using 2 vectors. Same as DrawRect();
+ * Draw a rectangle by using 2 vectors. Same as DrawRect()
  * 
  * @param {number[]} lefttop        positional vector of left top point 
  * @param {number[]} rightbottom    positional vector of right bottom point
  */
 function DrawRectByVec(lefttop, rightbottom) {
-    DrawRect(lefttop[0], lefttop[1], rightbottom[0], rightbottom[1]);
+    DrawRect(lefttop[0], lefttop[1], rightbottom[0], rightbottom[1])
 }
 
 /**
@@ -120,19 +120,19 @@ function DrawRectByVec(lefttop, rightbottom) {
  * @param {number} radius radius of circle
  */
 function DrawCircle(center_x, center_y, radius) {
-    __HSS_GRAPHICS_PRIVATE.ctx.beginPath();
-    __HSS_GRAPHICS_PRIVATE.ctx.arc(center_x, center_y, radius, 0, 2 * Math.PI);
-    __HSS_GRAPHICS_PRIVATE.ctx.fill();
+    __HSS_GRAPHICS_PRIVATE.ctx.beginPath()
+    __HSS_GRAPHICS_PRIVATE.ctx.arc(center_x, center_y, radius, 0, 2 * Math.PI)
+    __HSS_GRAPHICS_PRIVATE.ctx.fill()
 }
 
 /**
- * Draw a circle by using vector. Same as DrawCircle();
+ * Draw a circle by using vector. Same as DrawCircle()
  * 
  * @param {number[]} center     positional vector of center 
  * @param {number} radius       radius of circle
  */
 function DrawCircleByVec(center, radius) {
-    DrawCircle(center[0], center[1], radius);
+    DrawCircle(center[0], center[1], radius)
 }
 
 /**
@@ -147,11 +147,11 @@ function DrawCircleByVec(center, radius) {
  * @param {number} height        height(y) of the picture drawing here. If -1, original size
  */
 function DrawImage(picture_data, posX, posY, width, height) {
-    __HSS_GRAPHICS_PRIVATE.ctx.drawImage(picture_data, posX, posY, width, height);
+    __HSS_GRAPHICS_PRIVATE.ctx.drawImage(picture_data, posX, posY, width, height)
 }
 
 /**
- * Draw a picture by using vector. Same as DrawImage();
+ * Draw a picture by using vector. Same as DrawImage()
  * 
  * @param {Img} picture_data    data loaded by LoadPicture() 
  * @param {number[]} pos    positional vector of the picture drawing here
@@ -159,7 +159,7 @@ function DrawImage(picture_data, posX, posY, width, height) {
  * @param {number} height   height(y) of the picture drawing here. If -1, original size
  */
 function DrawImageByVec(picture_data, pos, width, height) {
-    DrawImage(picture_data, pos[0], pos[1], width, height);
+    DrawImage(picture_data, pos[0], pos[1], width, height)
 }
 
 /**
@@ -172,31 +172,31 @@ function DrawImageByVec(picture_data, pos, width, height) {
  * @returns {Img[]} picture data. Give this data to DrawPicture().
 */
 async function LoadImages(pathes) {
-    __HSS_GRAPHICS_PRIVATE.images_loaded = new Array(pathes.length);
-    __HSS_GRAPHICS_PRIVATE.images_loaded.fill(false);
+    __HSS_GRAPHICS_PRIVATE.images_loaded = new Array(pathes.length)
+    __HSS_GRAPHICS_PRIVATE.images_loaded.fill(false)
 
     //output
-    var imgs = new Array(pathes.length);
+    let imgs = new Array(pathes.length)
     
     //load
     for (let i = 0; i < pathes.length; i++) {
         //start loading image
-        const img = new Image();
-        img.src = pathes[i];
-        img.loadingNum = i;
+        const img = new Image()
+        img.src = pathes[i]
+        img.loadingNum = i
 
         //report as loaded
         img.onload = function() {
-            __HSS_GRAPHICS_PRIVATE.images_loaded[this.loadingNum] = true;
+            __HSS_GRAPHICS_PRIVATE.images_loaded[this.loadingNum] = true
         }
 
-        imgs[i] = img;
+        imgs[i] = img
     }
 
     //wait for loading
-    await __HSS_GRAPHICS_PRIVATE.WaitForLoaded();
+    await __HSS_GRAPHICS_PRIVATE.WaitForLoaded()
 
-    return imgs;
+    return imgs
 }
 
 //---------------------Not for using---------------------
@@ -205,40 +205,40 @@ async function LoadImages(pathes) {
  * Not for using
  */
 class __HSS_Graphics_Private {
-    height = 600;
-    width = 800;
+    height = 600
+    width = 800
 
     //get canvas
-    canvas = document.getElementById(__CANVAS_NAME);
+    canvas = document.getElementById(__CANVAS_NAME)
 
     //using this canvas reference
-    ctx = document.getElementById(__CANVAS_NAME).getContext("2d");
+    ctx = document.getElementById(__CANVAS_NAME).getContext("2d")
 
     //for waiting for loading
-    lib_loaded = [];
+    lib_loaded = []
 
     async WaitForLoaded() {
         //busy wait
         while (true) {
             //check if all loaded
-            let loaded = true;
+            let loaded = true
             for (let i = 0; i < __HSS_GRAPHICS_PRIVATE.images_loaded.length; i++) {
                 if (!__HSS_GRAPHICS_PRIVATE.images_loaded[i]) {
-                    loaded = false;
-                    break;
+                    loaded = false
+                    break
                 }
             }
     
             if (loaded) {
-                break;
+                break
             }
     
             //wait for 1ms
-            await Sleep(1);
+            await Sleep(1)
         }
     
         return
     }
 }
 
-const __HSS_GRAPHICS_PRIVATE = new __HSS_Graphics_Private();
+const __HSS_GRAPHICS_PRIVATE = new __HSS_Graphics_Private()

@@ -7,8 +7,8 @@
  */
 function StartAsync(func) {
     new Promise(func).catch((err) => {
-        console.error(err);
-    });
+        console.error(err)
+    })
 }
 
 /**
@@ -17,7 +17,7 @@ function StartAsync(func) {
  * @param {number} ms - The amount of time to sleep in milliseconds
  */
 async function Sleep(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms));
+    return new Promise(resolve => setTimeout(resolve, ms))
 }
 
 /**
@@ -26,10 +26,10 @@ async function Sleep(ms) {
  * @param {string} path path to your javascript file. If Src/a.js, input "/Src/a.js"
  */
 function ImportScript(path) {
-    //document.write("<script src=\"" + path + "\"></script>");
-    const script = document.createElement('script');
-    script.src = path;
-    document.head.appendChild(script);
+    //document.write("<script src=\"" + path + "\"></script>")
+    const script = document.createElement('script')
+    script.src = path
+    document.head.appendChild(script)
 }
 
 /**
@@ -39,7 +39,7 @@ function ImportScript(path) {
  * @param {any[]} ar - The array to copy 
  */
 function CopyArray(ar) {
-    return ar.slice();
+    return ar.slice()
 }
 
 /**
@@ -49,5 +49,5 @@ function CopyArray(ar) {
  * @param {any} anything - The thing to print to console
  */
 function Log(anything) {
-    console.log(anything);
+    console.log(anything)
 }

@@ -3,4 +3,4 @@
  * 
  * @type {string}
  */
-const __CANVAS_NAME = "canvas";
+const __CANVAS_NAME = "canvas"

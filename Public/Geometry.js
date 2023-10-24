@@ -20,9 +20,9 @@ function GetDistance(pos1, pos2) {
  * @returns {number} distance of the line - point
  */
 function GetDistanceFromLine2D(point, line_start, line_direction) {
-    const p2s = MinusVec(point, line_start);
-    const normalVector = Rotate2DVector(line_direction, 90);
-    return DotVec(p2s, normalVector) / normalVector.length;
+    const p2s = MinusVec(point, line_start)
+    const normalVector = Rotate2DVector(line_direction, 90)
+    return DotVec(p2s, normalVector) / normalVector.length
 }
 
 /*
@@ -42,7 +42,7 @@ All these functions doesn't change the inputed original vector.
  * @returns {boolean} Whether 2 vectors are in the same dimension.
  */
 function IsVecSameDimention(vec1, vec2) {
-    return vec1.length == vec2.length;
+    return vec1.length == vec2.length
 }
 
 /**
@@ -54,14 +54,14 @@ function IsVecSameDimention(vec1, vec2) {
  * @return {number[]} The sum vector of 2 vectors.
  */
 function PlusVec(vec1, vec2) {
-    const dimention = vec1.length;
+    const dimention = vec1.length
 
-    var output = Array(dimention);
-    for (var i = 0; i < dimention; i++) {
-        output[i] = vec1[i] + vec2[i];
+    let output = Array(dimention)
+    for (let i = 0; i < dimention; i++) {
+        output[i] = vec1[i] + vec2[i]
     }
 
-    return output;
+    return output
 }
 
 /**
@@ -73,14 +73,14 @@ function PlusVec(vec1, vec2) {
  * @return {number[]} The difference vector of 2 vectors.
  */
 function MinusVec(vec1, vec2) {
-    const dimention = vec1.length;
+    const dimention = vec1.length
 
-    var output = Array(dimention);
-    for (var i = 0; i < dimention; i++) {
-        output[i] = vec1[i] - vec2[i];
+    let output = Array(dimention)
+    for (let i = 0; i < dimention; i++) {
+        output[i] = vec1[i] - vec2[i]
     }
 
-    return output;
+    return output
 }
 
 /**
@@ -90,14 +90,14 @@ function MinusVec(vec1, vec2) {
  * @returns {number} The dot product of 2 vectors.
  */
 function DotVec(vec1, vec2) {
-    const dimention = vec1.length;
+    const dimention = vec1.length
 
-    var output = 0;
-    for (var i = 0; i < dimention; i++) {
-        output += vec1[i] * vec2[i];
+    let output = 0
+    for (let i = 0; i < dimention; i++) {
+        output += vec1[i] * vec2[i]
     }
 
-    return output;
+    return output
 }
 
 /**
@@ -107,21 +107,21 @@ function DotVec(vec1, vec2) {
  * @returns {number[]} The normalized vector.
  */
 function NormalizeVec(vec) {
-    const dimention = vec.length;
+    const dimention = vec.length
 
     if (IsApproximatelyZeroVector(vec)) {
-        throw "Zero vector has no direction!";
+        throw "Zero vector has no direction!"
     }
 
-    var output = CopyArray(vec);
+    let output = CopyArray(vec)
 
-    const length = GetVecLength(vec);
+    const length = GetVecLength(vec)
 
-    for (var i = 0; i < dimention; i++) {
-        output[i] /= length;
+    for (let i = 0; i < dimention; i++) {
+        output[i] /= length
     }
 
-    return output;
+    return output
 }
 
 /**
@@ -132,14 +132,14 @@ function NormalizeVec(vec) {
  * @returns {number[]} The multiplied vector.
  */
 function MultiplyVec(scalar, vec) {
-    const dimention = vec.length;
+    const dimention = vec.length
 
-    var output = Array(dimention);
-    for (var i = 0; i < dimention; i++) {
-        output[i] = vec[i] * scalar;
+    let output = Array(dimention)
+    for (let i = 0; i < dimention; i++) {
+        output[i] = vec[i] * scalar
     }
 
-    return output;
+    return output
 }
 
 /**
@@ -151,10 +151,10 @@ function MultiplyVec(scalar, vec) {
  */
 function ChangeVecLength(vec, length) {
     if (IsApproximatelyZeroVector(vec)) {
-        throw "Zero vector has no direction!";
+        throw "Zero vector has no direction!"
     }
 
-    return MultiplyVec(length, NormalizeVec(vec));
+    return MultiplyVec(length, NormalizeVec(vec))
 }
 
 /**
@@ -164,7 +164,7 @@ function ChangeVecLength(vec, length) {
  * @returns {number} The length of the vector.
  */
 function GetVecLength(vec) {
-    return Math.sqrt(DotVec(vec, vec));
+    return Math.sqrt(DotVec(vec, vec))
 }
 
 /**
@@ -177,9 +177,9 @@ function GetVecLength(vec) {
  */
 function GetOrthographicVec(vec_screen, vec_object) {
     if (IsApproximatelyZeroVector(vec_screen) || IsApproximatelyZeroVector(vec_object)) {
-        return Array(vec_screen.length).fill(0);
+        return Array(vec_screen.length).fill(0)
     } else {
-        return MultiplyVec(DotVec(vec_screen, vec_object) / DotVec(vec_screen, vec_screen), vec_screen);
+        return MultiplyVec(DotVec(vec_screen, vec_object) / DotVec(vec_screen, vec_screen), vec_screen)
     }
 }
 
@@ -191,15 +191,15 @@ function GetOrthographicVec(vec_screen, vec_object) {
  * @returns {boolean} whether vec ~ 0
  */
 function IsApproximatelyZeroVector(vec) {
-    const dimention = vec.length;
+    const dimention = vec.length
 
-    for (var cnt = 0; cnt < dimention; cnt++) {
+    for (let cnt = 0; cnt < dimention; cnt++) {
         if (!Approximate(vec[cnt], 0)) {
-            return false;
+            return false
         }
     }
 
-    return true;
+    return true
 }
 
 /**
@@ -213,18 +213,18 @@ function IsApproximatelyZeroVector(vec) {
  */
 function Rotate2DVector(vec, angle_delta, is_radian = false) {
     if (is_radian) {
-        angle_delta = angle_delta * 180 / Math.PI;
+        angle_delta = angle_delta * 180 / Math.PI
     }
 
-    const dimention = vec.length;
+    const dimention = vec.length
 
     if (dimention != 2) {
-        throw "Only 2D vector can be rotated!";
+        throw "Only 2D vector can be rotated!"
     }
 
-    const x = vec[0];
-    const y = vec[1];
-    const c = Math.cos(angle_delta);
-    const s = Math.sin(angle_delta);
-    return [x*c - y*s, x*s + y*c];
+    const x = vec[0]
+    const y = vec[1]
+    const c = Math.cos(angle_delta)
+    const s = Math.sin(angle_delta)
+    return [x*c - y*s, x*s + y*c]
 }
