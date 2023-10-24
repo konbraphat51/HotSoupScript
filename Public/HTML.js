@@ -261,6 +261,17 @@ function IsHTMLUpdated(id, should_remove = true) {
     return updated;
 }
 
+/**
+ * Remove the HTML element from the list of updated HTML elements.
+ * 
+ * @param {string} id   id of the HTML element to remove
+ */
+function RemoveHTMLUpdateList(id) {
+    if (__HSS_HTML_PRIVATE.updated_inputs.includes(id)) {
+        __HSS_HTML_PRIVATE.updated_inputs.splice(__HSS_HTML_PRIVATE.updated_inputs.indexOf(id), 1);
+    }
+}
+
 //--------------------Not for users--------------------
 
 /**
