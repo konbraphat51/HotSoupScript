@@ -55,8 +55,8 @@ function PutNumberInputField(id, label, value, min=-1e18, max=1e18, step = 1, on
     input.min = min;
     input.max = max;
     input.step = step;
-    if (onchange != null) {
-        input.onchange = onChanged;
+    if (onChanged != null) {
+        input.addEventListener("change", onChanged)
     }
     p.appendChild(document.createTextNode(label + ": "));
     p.appendChild(input);
@@ -95,7 +95,7 @@ function PutNumberInputFieldE(id, label, value, onChanged = null) {
     input_m.id = input_id_mantissa;
     input_m.value = mantissa;
     if (onChanged != null) {
-        input_m.onchange = onChanged;
+        input_m.addEventListener("change", onChanged)
     }
     input_m.min = -10;
     input_m.max = 10;
@@ -103,7 +103,9 @@ function PutNumberInputFieldE(id, label, value, onChanged = null) {
     input_e.type = "number";
     input_e.id = input_id_exponent;
     input_e.value = exponent;
-    input_e.onchange = onChanged;
+    if (onChanged != null) {
+        input_e.addEventListener("change", onChanged)
+    }
     input_e.min = -18;
     input_e.max = 18;
     input_e.step = 1;
@@ -201,7 +203,7 @@ function PutButton(id, label, onClicked = null){
     const button = document.createElement("button");
     button.id = id;
     if (onClicked != null) {
-        button.onclick = onClicked;
+        button.addEventListener("click", onClicked);
     }
     button.appendChild(document.createTextNode(label));
     
