@@ -205,6 +205,7 @@ function PutButton(id, label, onClicked = null){
     if (onClicked != null) {
         button.addEventListener("click", onClicked);
     }
+    button.addEventListener("click", __HSS_HTML_PRIVATE.StartListeningButton(button));
     button.appendChild(document.createTextNode(label));
     
     document.body.appendChild(button);
@@ -274,6 +275,16 @@ function RemoveHTMLUpdateList(id) {
     }
 }
 
+/**
+ * Start listening to the button, enables to get the status by isHTMLUpdated().
+ * 
+ * @param {string} id   HTML id of the button 
+ */
+function StartListenButton(id) {
+    const button = document.getElementById(id);
+    button.addEventListener("click", __HSS_HTML_PRIVATE.StartListeningButton(button));
+}
+
 //--------------------Not for users--------------------
 
 /**
@@ -290,12 +301,30 @@ class __HSS_HTML_Private {
         this.elements_showing.push(tag);
     }    
 
-    StartListeningInput() {
+    StartListeningChange() {
         //listen to input
-        document.addEventListener("input", function (e) {
+        document.addEventListener("change", function (e) {
+            //prevent duplication
+            if (__HSS_HTML_PRIVATE.updated_inputs.includes(e.target.id)) {
+                return;
+            }
+
+            __HSS_HTML_PRIVATE.updated_inputs.push(e.target.id);
+        });
+    }
+
+    StartListeningButton(element) {
+        element.addEventListener("click", function (e) {
+            //prevent duplication
+            if (__HSS_HTML_PRIVATE.updated_inputs.includes(e.target.id)) {
+                return;
+            }
+
             __HSS_HTML_PRIVATE.updated_inputs.push(e.target.id);
         });
     }
 }
 
 const __HSS_HTML_PRIVATE = new __HSS_HTML_Private();
+
+__HSS_HTML_PRIVATE.StartListeningChange();
