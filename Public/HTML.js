@@ -230,6 +230,37 @@ function StopAllTouchDefaults() {
     }, { passive: false });
 }
 
+/** 
+ * Get IDs of updated HTML elements.
+ * 
+ * @param {boolean} should_reset_list if true, reset the list after return.
+ * @returns {string[]} IDs of updated HTML elements
+ */
+function GetUpdatedHTMLs(should_reset_list = true) {
+    const updated = CopyArray(__HSS_HTML_PRIVATE.updated_inputs);
+    if (should_reset_list) {
+        __HSS_HTML_PRIVATE.updated_inputs = [];
+    }
+
+    return updated;
+}
+
+/**
+ * Check if the given HTML element is updated by user input.
+ * 
+ * @param {string} id id of the HTML element to check
+ * @param {boolean} should_remove If true, the element will be removed from the list after this.
+ * @returns {boolean} Wheather the element is updated by user input.
+ */
+function IsHTMLUpdated(id, should_remove = true) {
+    const updated = __HSS_HTML_PRIVATE.updated_inputs.includes(id);
+    if (updated && should_remove) {
+        __HSS_HTML_PRIVATE.updated_inputs.splice(__HSS_HTML_PRIVATE.updated_inputs.indexOf(id), 1);
+    }
+
+    return updated;
+}
+
 //--------------------Not for users--------------------
 
 /**
@@ -239,9 +270,19 @@ class __HSS_HTML_Private {
     //elements showed by this library part.
     elements_showing = [];
 
+    //IDs of html tag updated by user input
+    updated_inputs = [];
+
     RegisterElementShowing(tag){
         this.elements_showing.push(tag);
     }    
+
+    StartListeningInput() {
+        //listen to input
+        document.addEventListener("input", function (e) {
+            __HSS_HTML_PRIVATE.updated_inputs.push(e.target.id);
+        });
+    }
 }
 
 const __HSS_HTML_PRIVATE = new __HSS_HTML_Private();
