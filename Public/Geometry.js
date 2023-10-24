@@ -11,6 +11,20 @@ function GetDistance(pos1, pos2) {
     return Math.sqrt(Math.pow(pos2[0] - pos1[0], 2) + Math.pow(pos2[1] - pos1[1], 2))
 }
 
+/**
+ * Calculate 2D distance of line - point.
+ * 
+ * @param {number[]} point          positional vector of the point
+ * @param {number[]} line_start     positional vector of the start point of the line
+ * @param {number[]} line_direction directional vector of the line
+ * @returns {number} distance of the line - point
+ */
+function GetDistanceFromLine2D(point, line_start, line_direction) {
+    const p2s = MinusVec(point, line_start);
+    const normalVector = Rotate2DVector(line_direction, 90);
+    return DotVec(p2s, normalVector) / normalVector.length;
+}
+
 /*
 # Vectors
 
@@ -186,4 +200,31 @@ function IsApproximatelyZeroVector(vec) {
     }
 
     return true;
+}
+
+/**
+ * Rotate a 2D vector.
+ * Using 2D rotation matrix.
+ * 
+ * @param {number[]} vec    vector to be rotated
+ * @param {number} angle_delta  angle to rotate. 
+ * @param {boolean} is_radian   whether angle_delta is radian or degree.
+ * @returns {number[]} rotated vector
+ */
+function Rotate2DVector(vec, angle_delta, is_radian = false) {
+    if (is_radian) {
+        angle_delta = angle_delta * 180 / Math.PI;
+    }
+
+    const dimention = vec.length;
+
+    if (dimention != 2) {
+        throw "Only 2D vector can be rotated!";
+    }
+
+    const x = vec[0];
+    const y = vec[1];
+    const c = Math.cos(angle_delta);
+    const s = Math.sin(angle_delta);
+    return [x*c - y*s, x*s + y*c];
 }
