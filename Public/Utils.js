@@ -2,6 +2,8 @@
 
 /**
  * Start an async function from non async function
+ * 
+ * @param {function} func - The async function to start
  */
 function StartAsync(func) {
     new Promise(func).catch((err) => {
@@ -11,6 +13,7 @@ function StartAsync(func) {
 
 /**
  * Be idle for a certain amount of time
+ * 
  * @param {number} ms - The amount of time to sleep in milliseconds
  */
 async function Sleep(ms) {
@@ -32,6 +35,8 @@ function ImportScript(path) {
 /**
  * Make a shallow copy of an array.
  * If you don't do this, you may unexpectedly change the original array.
+ * 
+ * @param {any[]} ar - The array to copy 
  */
 function CopyArray(ar) {
     return ar.slice();
@@ -40,6 +45,8 @@ function CopyArray(ar) {
 /**
  * Print to console. Nothing happens to the screen.
  * (Same as console.log)
+ * 
+ * @param {any} anything - The thing to print to console
  */
 function Log(anything) {
     console.log(anything);

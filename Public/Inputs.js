@@ -26,6 +26,8 @@ function GetMouse() {
 
 /**
  * Returns mouse position in canvas.
+ * 
+ * @returns {number} Where the mouse is in canvas: x position
  */
 function GetMouseX() {
     return __HSS_Input_PRIVATE.mouse_x;
@@ -33,9 +35,20 @@ function GetMouseX() {
 
 /**
  * Returns mouse position in canvas.
+ * 
+ * @returns {number} Where the mouse is in canvas: y position
 */
 function GetMouseY() {
     return __HSS_Input_PRIVATE.mouse_y;
+}
+
+/**
+ * Returns mouse position in canvas.
+ * 
+ * @returns {number[]} Where the mouse is in canvas: [x, y]
+ */
+function GetMousePosition() {
+    return [__HSS_Input_PRIVATE.mouse_x, __HSS_Input_PRIVATE.mouse_y];
 }
 
 //---------------------Not for using---------------------

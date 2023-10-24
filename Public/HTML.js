@@ -33,14 +33,14 @@ function EraceHTML(id) {
  * Put a Number Input Field in the HTML.
  * Could be useful to control the simulation parameters.
  * 
- * @param id        id of the P tag. The id of the input tag will be "{id}_input"
- * @param label      label written left of the input field
- * @param value inital value
- * @param min   minimal value
- * @param max   maximum value
- * @param step  value interval
- * @param onChanged functionCalled when changed. This will be multi-thread, so not recommended for beginners (Use IsHTMLUpdated() and GetNumberInputField())
- * @returns [id of p tag, id of input tag]
+ * @param {string} id        id of the P tag. The id of the input tag will be "{id}_input"
+ * @param {string} label      label written left of the input field
+ * @param {number} value inital value
+ * @param {number} min   minimal value
+ * @param {number} max   maximum value
+ * @param {number} step  value interval
+ * @param {function} onChanged functionCalled when changed. This will be multi-thread, so not recommended for beginners (Use IsHTMLUpdated() and GetNumberInputField())
+ * @returns {string[]} [id of p tag, id of input tag]
  */
 function PutNumberInputField(id, label, value, min=-1e18, max=1e18, step = 1, onChanged = null){
     const input_id = MakeInputID(id);
@@ -73,11 +73,11 @@ function PutNumberInputField(id, label, value, min=-1e18, max=1e18, step = 1, on
  * Show as:
  * {label}: {input field mantissa} e {input field: exponent}
  * 
- * @param id    id of the P tag. The id of the input tag will be: mantissa->"{id}_input_m", exponent->"{id}_input_e"
- * @param label label written left of the input field
- * @param value inital value
- * @param onChanged functionCalled when changed (no parameter given to this function) This will be multi-thread, so not recommended for beginners (Use IsHTMLUpdated() and GetNumberInputFieldE())
- * @returns [id of p tag, id of input tag of mantissa, id of input tag of exponent]
+ * @param {string} id    id of the P tag. The id of the input tag will be: mantissa->"{id}_input_m", exponent->"{id}_input_e"
+ * @param {string} label label written left of the input field
+ * @param {number} value inital value
+ * @param {function} onChanged functionCalled when changed (no parameter given to this function) This will be multi-thread, so not recommended for beginners (Use IsHTMLUpdated() and GetNumberInputFieldE())
+ * @returns {string[]} [id of p tag, id of input tag of mantissa, id of input tag of exponent]
  */
 function PutNumberInputFieldE(id, label, value, onChanged = null) {
     const input_id_mantissa = MakeMantissaID(id);
@@ -122,7 +122,7 @@ function PutNumberInputFieldE(id, label, value, onChanged = null) {
 /**
  * Get the value of the input field. Same as the document function.
  * 
- * @param id id of the input tag
+ * @param {string} id id of the input tag
  * @return {string} Becareful that the return value is string. If you want number, use GetNumberInputFieldValue().
  */
 function GetInputFieldValue(id) {
@@ -147,8 +147,8 @@ function GetNumberInputFieldValue(id, fromPutFunc = false) {
 /** 
  * Get the value of the input field made by PutNumberInputFieldE().
  *  
- * @param id id of the p tag
- * @returns value calculated from the 2 input fields
+ * @param {string} id id of the p tag
+ * @returns {number} value calculated from the 2 input fields
  */
 function GetNumberInputFieldValueE(id) {
     const id_mantissa = MakeMantissaID(id);
@@ -160,8 +160,8 @@ function GetNumberInputFieldValueE(id) {
  * Make ID for GetInputFieldValue().
  * This function is made for integration use.
  * 
- * @param {*} id id of the p tag
- * @returns id of the input tag
+ * @param {string} id id of the p tag
+ * @returns {string} id of the input tag
  */
 function MakeInputID(id) {
     return id + "_input";
@@ -171,8 +171,8 @@ function MakeInputID(id) {
  * Make ID for GetInputFieldValueE().
  * This function is made for integration use.
  * 
- * @param id id of the p tag
- * @returns id of the input tag of mantissa
+ * @param {string} id id of the p tag
+ * @returns {string} id of the input tag of mantissa
  */
 function MakeMantissaID(id) {
     return id + "_input_m";
@@ -182,8 +182,8 @@ function MakeMantissaID(id) {
  * Make ID for GetInputFieldValueE().
  * This function is made for integration use.
  * 
- * @param id id of the p tag
- * @returns id of the input tag of exponent
+ * @param {string} id id of the p tag
+ * @returns {string} id of the input tag of exponent
  */
 function MakeExponentID(id) {
     return id + "_input_e";
@@ -194,7 +194,7 @@ function MakeExponentID(id) {
  * 
  * @param {string} id            ID of the HTML tag
  * @param {string} label         Label written on the button
- * @param {string} onClicked     Function called when clicked This will be multi-thread, so not recommended for beginners (Use IsHTMLUpdated() and GetHTMLButton())
+ * @param {function} onClicked     Function called when clicked This will be multi-thread, so not recommended for beginners (Use IsHTMLUpdated() and GetHTMLButton())
  */
 function PutButton(id, label, onClicked = null){
     //document.write("<button id=\"" + id + "\" onclick=\"" + onClicked.name + "()\">" + label + "</button>");

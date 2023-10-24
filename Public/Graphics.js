@@ -2,8 +2,16 @@
 
 /**
  * Set canvas size
+ * 
+ * @param {number | number[]} width Width of canvas. If array, [width, height]
+ * @param {?number} height Height of canvas. If width is array, this is ignored.
  */
-function SetCanvasSize(width, height) {
+function SetCanvasSize(width, height = null) {
+    if (Array.isArray(width)) {
+        height = width[1];
+        width = width[0];
+    }
+
     __HSS_GRAPHICS_PRIVATE.canvas.width = width;
     __HSS_GRAPHICS_PRIVATE.canvas.height = height;
 
@@ -13,6 +21,8 @@ function SetCanvasSize(width, height) {
 
 /**
  * Set font for next text
+ * 
+ * @param {string} text Font text
  */
 function SetFont(text) {
     __HSS_GRAPHICS_PRIVATE.ctx.font = text;
@@ -20,6 +30,8 @@ function SetFont(text) {
 
 /**
  * Set color for next texture
+ * 
+ * @param {string} color Color text
  */
 function SetColor(color) {
     __HSS_GRAPHICS_PRIVATE.ctx.fillStyle = color;
@@ -28,7 +40,7 @@ function SetColor(color) {
 /**
  * Get canvas size.
  * 
- * @returns [width, height]
+ * @returns {number[]} [width, height]
  */
 function GetCanvasSize() {
     return [__HSS_GRAPHICS_PRIVATE.width, __HSS_GRAPHICS_PRIVATE.height]
@@ -37,22 +49,27 @@ function GetCanvasSize() {
 /**
  * Write a text
  * 
- * @param text What you want to write
- * @param x Where you want to write it: x position
- * @param y Where you want to write it: y position 
+ * @param {*} text What you want to write
+ * @param {number | number[]} x Where you want to write it: x position. If array, [x, y]
+ * @param {?number} y Where you want to write it: y position. If x is array, this is ignored.
  */
-function DrawText(text, x, y) {
+function DrawText(text, x, y = null) {
+    if (Array.isArray(x)) {
+        y = x[1];
+        x = x[0];
+    }
+
     __HSS_GRAPHICS_PRIVATE.ctx.fillText(text, x, y);
 }
 
 /**
  * Draw a line
  * 
- * @param x1 Start point: x position
- * @param y1 Start point: y position
- * @param x2 End point: x position
- * @param y2 End point: y position
- * @param line_width Width of line
+ * @param {number} x1 Start point: x position
+ * @param {number} y1 Start point: y position
+ * @param {number} x2 End point: x position
+ * @param {number} y2 End point: y position
+ * @param {number} line_width Width of line
  */
 function DrawLine(x1, y1, x2, y2, line_width) {
     __HSS_GRAPHICS_PRIVATE.ctx.beginPath();
@@ -63,14 +80,44 @@ function DrawLine(x1, y1, x2, y2, line_width) {
 }
 
 /**
+ * Draw a line by using 2 vectors. Same as DrawLine();
+ * 
+ * @param {number[]} vec1 position 1 [x, y]
+ * @param {number[]} vec2 position 2 [x, y]
+ * @param {number} line_width width of line 
+ */
+function DrawLineByVec(vec1, vec2, line_width) {
+    DrawLine(vec1[0], vec1[1], vec2[0], vec2[1], line_width);
+}
+
+/**
  * Draw a rectangle
+ * 
+ * @param {number} lefttop_x left top point: x position
+ * @param {number} lefttop_y left top point: y position
+ * @param {number} rightbottom_x right bottom point: x position
+ * @param {number} rightbottom_y right bottom point: y position
  */
 function DrawRect(lefttop_x, lefttop_y, rightbottom_x, rightbottom_y) {
     __HSS_GRAPHICS_PRIVATE.ctx.fillRect(lefttop_x, lefttop_y, rightbottom_x-lefttop_x, rightbottom_y-lefttop_y);
 }
 
 /**
+ * Draw a rectangle by using 2 vectors. Same as DrawRect();
+ * 
+ * @param {number[]} lefttop        positional vector of left top point 
+ * @param {number[]} rightbottom    positional vector of right bottom point
+ */
+function DrawRectByVec(lefttop, rightbottom) {
+    DrawRect(lefttop[0], lefttop[1], rightbottom[0], rightbottom[1]);
+}
+
+/**
  * Draw a circle
+ * 
+ * @param {number} center_x x position of center
+ * @param {number} center_y y position of center
+ * @param {number} radius radius of circle
  */
 function DrawCircle(center_x, center_y, radius) {
     __HSS_GRAPHICS_PRIVATE.ctx.beginPath();
@@ -79,16 +126,40 @@ function DrawCircle(center_x, center_y, radius) {
 }
 
 /**
+ * Draw a circle by using vector. Same as DrawCircle();
+ * 
+ * @param {number[]} center     positional vector of center 
+ * @param {number} radius       radius of circle
+ */
+function DrawCircleByVec(center, radius) {
+    DrawCircle(center[0], center[1], radius);
+}
+
+/**
  * Draw a picture. 
  * 
  * Should be loaded by LoadImages() in advance
  * 
- * @param picture_data  data loaded by LoadPicture()
- * @param width         width(x) of the picture drawing here. If -1, original size.
- * @param height        height(y) of the picture drawing here. If -1, original size
+ * @param {Img} picture_data  data loaded by LoadPicture()
+ * @param {number} posX          x position of the picture drawing here
+ * @param {number} posY          y position of the picture drawing here
+ * @param {number} width         width(x) of the picture drawing here. If -1, original size.
+ * @param {number} height        height(y) of the picture drawing here. If -1, original size
  */
 function DrawImage(picture_data, posX, posY, width, height) {
     __HSS_GRAPHICS_PRIVATE.ctx.drawImage(picture_data, posX, posY, width, height);
+}
+
+/**
+ * Draw a picture by using vector. Same as DrawImage();
+ * 
+ * @param {Img} picture_data    data loaded by LoadPicture() 
+ * @param {number[]} pos    positional vector of the picture drawing here
+ * @param {number} width    width(x) of the picture drawing here. If -1, original size.
+ * @param {number} height   height(y) of the picture drawing here. If -1, original size
+ */
+function DrawImageByVec(picture_data, pos, width, height) {
+    DrawImage(picture_data, pos[0], pos[1], width, height);
 }
 
 /**
@@ -98,6 +169,7 @@ function DrawImage(picture_data, posX, posY, width, height) {
  * BeCareful: if you want single picture data: (await LoadImages([path]))[0]
  *
  * @param {string[]} pathes      If you want to load "a.png" in B folder, input "/B/a.png". It should be a list
+ * @returns {Img[]} picture data. Give this data to DrawPicture().
 */
 async function LoadImages(pathes) {
     __HSS_GRAPHICS_PRIVATE.images_loaded = new Array(pathes.length);

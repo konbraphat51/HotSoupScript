@@ -3,6 +3,9 @@
 
 /**
  * Calculate distance of 2 positions.
+ * @param {number[]} pos1 position 1 [x, y]
+ * @param {number[]} pos2 position 2 [x, y]
+ * @returns {number} distance of the 2 positions
  */
 function GetDistance(pos1, pos2) {
     return Math.sqrt(Math.pow(pos2[0] - pos1[0], 2) + Math.pow(pos2[1] - pos1[1], 2))
@@ -20,7 +23,9 @@ All these functions doesn't change the inputed original vector.
 /**
  * Check if 2 vectors are in the same dimension.
  * 
- * @returns Whether 2 vectors are in the same dimension.
+ * @param {number[]} vec1 
+ * @param {number[]} vec2
+ * @returns {boolean} Whether 2 vectors are in the same dimension.
  */
 function IsVecSameDimention(vec1, vec2) {
     return vec1.length == vec2.length;
@@ -30,7 +35,9 @@ function IsVecSameDimention(vec1, vec2) {
  * Plus 2 vectors.
  * The input vectors won't be changed.
  * 
- * @return The sum vector of 2 vectors.
+ * @param {number[]} vec1
+ * @param {number[]} vec2
+ * @return {number[]} The sum vector of 2 vectors.
  */
 function PlusVec(vec1, vec2) {
     const dimention = vec1.length;
@@ -47,7 +54,9 @@ function PlusVec(vec1, vec2) {
  * Minus 2 vectors. (vec1 - vec2)
  * The input vectors won't be changed.
  * 
- * @return The difference vector of 2 vectors.
+ * @param {number[]} vec1
+ * @param {number[]} vec2
+ * @return {number[]} The difference vector of 2 vectors.
  */
 function MinusVec(vec1, vec2) {
     const dimention = vec1.length;
@@ -62,6 +71,9 @@ function MinusVec(vec1, vec2) {
 
 /**
  * Dot product of 2 vectors.
+ * @param {number[]} vec1
+ * @param {number[]} vec2
+ * @returns {number} The dot product of 2 vectors.
  */
 function DotVec(vec1, vec2) {
     const dimention = vec1.length;
@@ -77,8 +89,8 @@ function DotVec(vec1, vec2) {
 /**
  * Normalize a vector.
  * 
- * @param {*} vec The original vector won't be changed.
- * @returns The normalized vector.
+ * @param {number[]} vec The original vector won't be changed.
+ * @returns {number[]} The normalized vector.
  */
 function NormalizeVec(vec) {
     const dimention = vec.length;
@@ -101,9 +113,9 @@ function NormalizeVec(vec) {
 /**
  * Multiply a vector by a scalar.
  * 
- * @param scalar Should be a number, not a vector.
- * @param vec The original vector won't be changed.
- * @returns The multiplied vector.
+ * @param {number} scalar Should be a number, not a vector.
+ * @param {number[]} vec The original vector won't be changed.
+ * @returns {number[]} The multiplied vector.
  */
 function MultiplyVec(scalar, vec) {
     const dimention = vec.length;
@@ -119,9 +131,9 @@ function MultiplyVec(scalar, vec) {
 /**
  * Change the length of a vector with the same direction.
  * 
- * @param {*} vec the original vector won't be changed.
- * @param {*} length The new length you want
- * @returns The modified vector.
+ * @param {number[]} vec the original vector won't be changed.
+ * @param {number} length The new length you want
+ * @returns {number[]} The modified vector.
  */
 function ChangeVecLength(vec, length) {
     if (IsApproximatelyZeroVector(vec)) {
@@ -133,6 +145,9 @@ function ChangeVecLength(vec, length) {
 
 /**
  * Calculate length of a vector.
+ * 
+ * @param {number[]} vec
+ * @returns {number} The length of the vector.
  */
 function GetVecLength(vec) {
     return Math.sqrt(DotVec(vec, vec));
@@ -141,6 +156,10 @@ function GetVecLength(vec) {
 /**
  * Calculate projection of vec_object on vec_screen.
  * JP: 正射影ベクトル
+ * 
+ * @param {number[]} vec_screen
+ * @param {number[]} vec_object
+ * @returns {number[]} The projected vector.
  */
 function GetOrthographicVec(vec_screen, vec_object) {
     if (IsApproximatelyZeroVector(vec_screen) || IsApproximatelyZeroVector(vec_object)) {
@@ -154,7 +173,8 @@ function GetOrthographicVec(vec_screen, vec_object) {
  * Check if a vector is approximately zero vector.
  * Useful because floating point numbers rarely become equals.
  * 
- * @returns whether vec ~ 0
+ * @param {number[]} vec
+ * @returns {boolean} whether vec ~ 0
  */
 function IsApproximatelyZeroVector(vec) {
     const dimention = vec.length;
