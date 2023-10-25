@@ -9,7 +9,7 @@ This is inspired by [HSP Language](https://hsp.tv/) which is widely used for kid
 ## How To Use
 ### Set up
 
-[HSS PlayGround](https://github.com/konbraphat51/HSS_Playground) could be your template.  
+[HSS Template](https://github.com/konbraphat51/HSS_Template) could be your help to setup HTML.  
   
 Put this repository in your html-existing directory, and write below.
 ```html
