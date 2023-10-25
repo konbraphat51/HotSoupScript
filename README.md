@@ -3,6 +3,9 @@ This library enables programming beginers to make an artistic (especially game) 
   
 This is inspired by [HSP Language](https://hsp.tv/) which is widely used for kid's coding.
 
+## Examples used HSS
+* [Simulation of Newton's Cradle](https://github.com/konbraphat51/NewtonsCradle)
+
 ## How To Use
 ### Set up
 
