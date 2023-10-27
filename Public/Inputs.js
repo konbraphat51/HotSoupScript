@@ -8,7 +8,7 @@
  */
 function GetKey(keyCode) {
     if (keyCode in __HSS_Input_PRIVATE.keys_pressed){
-        __HSS_Input_PRIVATE.keys_pressed[keyCode]
+        return __HSS_Input_PRIVATE.keys_pressed[keyCode]
     }else{
         //not ever pushed before
         return false
