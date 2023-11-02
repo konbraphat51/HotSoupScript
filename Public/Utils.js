@@ -29,7 +29,7 @@ function ImportScript(path) {
     //document.write("<script src=\"" + path + "\"></script>")
     const script = document.createElement('script')
     script.src = path
-    document.head.appendChild(script)
+    document.body.appendChild(script)
 }
 
 /**

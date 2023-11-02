@@ -3,12 +3,12 @@
 /**
  * Returns if key is currently pressed or not.
  *  
- * @param {int} keyCode Get from here: https://www.toptal.com/developers/keycode
+ * @param {string} keyCode Get from here, [UI Events]->[code]: https://w3c.github.io/uievents/tools/key-event-viewer.html
  * @returns {boolean} Whether the key is pressed.
  */
 function GetKey(keyCode) {
     if (keyCode in __HSS_Input_PRIVATE.keys_pressed){
-        __HSS_Input_PRIVATE.keys_pressed[keyCode]
+        return __HSS_Input_PRIVATE.keys_pressed[keyCode]
     }else{
         //not ever pushed before
         return false
@@ -80,12 +80,12 @@ class __HSS_Input_Private {
     PrepareInput() {
         const canvas = document.getElementById(__CANVAS_NAME)
     
-        canvas.addEventListener("keydown", function (e) {
-            __HSS_Input_PRIVATE.keys_pressed[e.key] = true
+        document.addEventListener("keydown", function (e) {
+            __HSS_Input_PRIVATE.keys_pressed[e.code] = true            
         })
         
-        canvas.addEventListener("keyup", function (e) {
-            __HSS_Input_PRIVATE.keys_pressed[e.key] = false
+        document.addEventListener("keyup", function (e) {
+            __HSS_Input_PRIVATE.keys_pressed[e.code] = false
         })
         
         //for mouse

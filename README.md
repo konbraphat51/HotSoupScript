@@ -3,10 +3,13 @@ This library enables programming beginers to make an artistic (especially game) 
   
 This is inspired by [HSP Language](https://hsp.tv/) which is widely used for kid's coding.
 
+## Examples used HSS
+* [Simulation of Newton's Cradle](https://github.com/konbraphat51/NewtonsCradle)
+
 ## How To Use
 ### Set up
 
-[HSS PlayGround](https://github.com/konbraphat51/HSS_Playground) could be your template.  
+[HSS Template](https://github.com/konbraphat51/HSS_Template) could be your help to setup HTML.  
   
 Put this repository in your html-existing directory, and write below.
 ```html
