@@ -5,8 +5,10 @@ This is inspired by [HSP Language](https://hsp.tv/) which is widely used for kid
 
 ## Examples used HSS
 * [Simulation of Newton's Cradle](https://github.com/konbraphat51/NewtonsCradle)
+* [HotSoupScripts Examples](https://konbraphat51.github.io/HSS_examples/)
 
 ## How To Use
+
 ### Set up
 
 [HSS Template](https://github.com/konbraphat51/HSS_Template) could be your help to setup HTML.  
@@ -33,6 +35,9 @@ This tag call your `main()` async function. (The name should be `main()`)
   
 ### Coding
 Usable function is in `Public` folder. Check it out!
+  
+This could be your tutorial:  
+[HotSoupScripts Examples](https://konbraphat51.github.io/HSS_examples/)  
   
 Functions starts with `__` means not intended to be used by you :(  
   
