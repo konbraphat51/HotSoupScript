@@ -8,12 +8,14 @@
  * @returns {number} distance of the 2 positions
  */
 function GetDistance(pos1, pos2) {
-    return Math.sqrt(Math.pow(pos2[0] - pos1[0], 2) + Math.pow(pos2[1] - pos1[1], 2))
+    return Math.sqrt(
+        Math.pow(pos2[0] - pos1[0], 2) + Math.pow(pos2[1] - pos1[1], 2)
+    )
 }
 
 /**
  * Calculate 2D distance of line - point.
- * 
+ *
  * @param {number[]} point          positional vector of the point
  * @param {number[]} line_start     positional vector of the start point of the line
  * @param {number[]} line_direction directional vector of the line
@@ -36,8 +38,8 @@ All these functions doesn't change the inputed original vector.
 
 /**
  * Check if 2 vectors are in the same dimension.
- * 
- * @param {number[]} vec1 
+ *
+ * @param {number[]} vec1
  * @param {number[]} vec2
  * @returns {boolean} Whether 2 vectors are in the same dimension.
  */
@@ -48,7 +50,7 @@ function IsVecSameDimention(vec1, vec2) {
 /**
  * Plus 2 vectors.
  * The input vectors won't be changed.
- * 
+ *
  * @param {number[]} vec1
  * @param {number[]} vec2
  * @return {number[]} The sum vector of 2 vectors.
@@ -66,7 +68,7 @@ function PlusVec(vec1, vec2) {
 
 /**
  * Multiply a vector by a scalar.
- * 
+ *
  * @param {number} scalar Should be a number, not a vector.
  * @param {number[]} vec The original vector won't be changed.
  * @returns {number[]} The multiplied vector.
@@ -85,7 +87,7 @@ function MultiplyVec(scalar, vec) {
 /**
  * Minus 2 vectors. (vec1 - vec2)
  * The input vectors won't be changed.
- * 
+ *
  * @param {number[]} vec1
  * @param {number[]} vec2
  * @return {number[]} The difference vector of 2 vectors.
@@ -113,7 +115,7 @@ function DotVec(vec1, vec2) {
 
 /**
  * Normalize a vector.
- * 
+ *
  * @param {number[]} vec The original vector won't be changed.
  * @returns {number[]} The normalized vector.
  */
@@ -137,7 +139,7 @@ function NormalizeVec(vec) {
 
 /**
  * Change the length of a vector with the same direction.
- * 
+ *
  * @param {number[]} vec the original vector won't be changed.
  * @param {number} length The new length you want
  * @returns {number[]} The modified vector.
@@ -152,7 +154,7 @@ function ChangeVecLength(vec, length) {
 
 /**
  * Calculate length of a vector.
- * 
+ *
  * @param {number[]} vec
  * @returns {number} The length of the vector.
  */
@@ -163,23 +165,29 @@ function GetVecLength(vec) {
 /**
  * Calculate projection of vec_object on vec_screen.
  * JP: 正射影ベクトル
- * 
+ *
  * @param {number[]} vec_screen
  * @param {number[]} vec_object
  * @returns {number[]} The projected vector.
  */
 function GetOrthographicVec(vec_screen, vec_object) {
-    if (IsApproximatelyZeroVector(vec_screen) || IsApproximatelyZeroVector(vec_object)) {
+    if (
+        IsApproximatelyZeroVector(vec_screen) ||
+        IsApproximatelyZeroVector(vec_object)
+    ) {
         return Array(vec_screen.length).fill(0)
     } else {
-        return MultiplyVec(DotVec(vec_screen, vec_object) / DotVec(vec_screen, vec_screen), vec_screen)
+        return MultiplyVec(
+            DotVec(vec_screen, vec_object) / DotVec(vec_screen, vec_screen),
+            vec_screen
+        )
     }
 }
 
 /**
  * Check if a vector is approximately zero vector.
  * Useful because floating point numbers rarely become equals.
- * 
+ *
  * @param {number[]} vec
  * @returns {boolean} whether vec ~ 0
  */
@@ -198,15 +206,15 @@ function IsApproximatelyZeroVector(vec) {
 /**
  * Rotate a 2D vector.
  * Using 2D rotation matrix.
- * 
+ *
  * @param {number[]} vec    vector to be rotated
- * @param {number} angle_delta  angle to rotate. 
+ * @param {number} angle_delta  angle to rotate.
  * @param {boolean} is_radian   whether angle_delta is radian or degree.
  * @returns {number[]} rotated vector
  */
 function Rotate2DVector(vec, angle_delta, is_radian = false) {
     if (is_radian) {
-        angle_delta = angle_delta * 180 / Math.PI
+        angle_delta = (angle_delta * 180) / Math.PI
     }
 
     const dimention = vec.length
@@ -219,5 +227,5 @@ function Rotate2DVector(vec, angle_delta, is_radian = false) {
     const y = vec[1]
     const c = Math.cos(angle_delta)
     const s = Math.sin(angle_delta)
-    return [x*c - y*s, x*s + y*c]
+    return [x * c - y * s, x * s + y * c]
 }

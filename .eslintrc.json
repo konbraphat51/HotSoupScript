@@ -1,10 +1,13 @@
 {
-    "extends": ["eslint:recommended"],
-    "plugins": [],
-    "parserOptions": {},
-    "env": {"browser": true},
-    "globals": {},
-    "rules": {
-        "semi": ["error", "never"]
-    }
+  "extends": ["eslint:recommended"],
+  "plugins": [],
+  "parserOptions": {},
+  "env": { "browser": true },
+  "globals": {},
+  "rules": {
+    "semi": ["error", "never"],
+    "indent": ["error", 4],
+    "no-console": "off",
+    "no-unused-vars": "off"
+  }
 }

@@ -3,8 +3,8 @@
 /**
  * Erace all HTML elements made by this library.
  */
-function EraceAllHTML(){
-    for(let i = 0; i < __HSS_HTML_PRIVATE.elements_showing.length; i++){
+function EraceAllHTML() {
+    for (let i = 0; i < __HSS_HTML_PRIVATE.elements_showing.length; i++) {
         __HSS_HTML_PRIVATE.elements_showing[i].remove()
     }
 
@@ -14,15 +14,15 @@ function EraceAllHTML(){
 
 /**
  * Erace the HTML element.
- * 
+ *
  * @param {string} id id of the HTML element
  */
 function EraceHTML(id) {
     document.getElementById(id).remove()
 
     //remove from list
-    for(let i = 0; i < __HSS_HTML_PRIVATE.elements_showing.length; i++){
-        if (__HSS_HTML_PRIVATE.elements_showing[i].id == id){
+    for (let i = 0; i < __HSS_HTML_PRIVATE.elements_showing.length; i++) {
+        if (__HSS_HTML_PRIVATE.elements_showing[i].id == id) {
             __HSS_HTML_PRIVATE.elements_showing.splice(i, 1)
             break
         }
@@ -32,7 +32,7 @@ function EraceHTML(id) {
 /**
  * Put a Number Input Field in the HTML.
  * Could be useful to control the simulation parameters.
- * 
+ *
  * @param {string} id        id of the P tag. The id of the input tag will be "{id}_input"
  * @param {string} label      label written left of the input field
  * @param {number} value inital value
@@ -42,9 +42,17 @@ function EraceHTML(id) {
  * @param {function} onChanged functionCalled when changed. This will be multi-thread, so not recommended for beginners (Use IsHTMLUpdated() and GetNumberInputField())
  * @returns {string[]} [id of p tag, id of input tag]
  */
-function PutNumberInputField(id, label, value, min=-1e18, max=1e18, step = 1, onChanged = null){
+function PutNumberInputField(
+    id,
+    label,
+    value,
+    min = -1e18,
+    max = 1e18,
+    step = 1,
+    onChanged = null
+) {
     const input_id = MakeInputID(id)
-     
+
     //document.write("<p id=\""+ id +"\">"+label+": <input type=\"number\" id=\"" + input_id + "\" value=\"" + value + "\" min=\"" + min + "\" max=\"" + max + "\" step=\"" + step + "\" onchange=\""+ onChanged.name +"()\"></p>")
     const p = document.createElement("p")
     p.id = id
@@ -72,7 +80,7 @@ function PutNumberInputField(id, label, value, min=-1e18, max=1e18, step = 1, on
  * Put a Number Input Field of E notation in the HTML.
  * Show as:
  * {label}: {input field mantissa} e {input field: exponent}
- * 
+ *
  * @param {string} id    id of the P tag. The id of the input tag will be: mantissa->"{id}_input_m", exponent->"{id}_input_e"
  * @param {string} label label written left of the input field
  * @param {number} value inital value
@@ -85,7 +93,7 @@ function PutNumberInputFieldE(id, label, value, onChanged = null) {
 
     //to E notation
     let exponent = Math.floor(Math.log10(value))
-    let mantissa = value / (10**exponent)
+    let mantissa = value / 10 ** exponent
 
     //document.write("<p id=\"" + id + "\">" + label + ": <input type=\"number\" id=\"" + input_id_mantissa + "\" value=\"" + mantissa + "\" onchange=\"" + onChanged.name + "()\"> e <input type=\"number\" id=\"" + input_id_exponent + "\" value=\"" + exponent + "\" onchange=\"" + onChanged.name + "()\" step=\"1\"></p>")
     const p = document.createElement("p")
@@ -123,7 +131,7 @@ function PutNumberInputFieldE(id, label, value, onChanged = null) {
 
 /**
  * Get the value of the input field. Same as the document function.
- * 
+ *
  * @param {string} id id of the input tag
  * @return {string} Becareful that the return value is string. If you want number, use GetNumberInputFieldValue().
  */
@@ -133,7 +141,7 @@ function GetInputFieldValue(id) {
 
 /**
  * Get number from the input field.
- * 
+ *
  * @param {string} id id of the input tag
  * @param {boolean} fromPutFunc When made by PutNumberInputField(), set true.
  * @returns {number} number read.
@@ -146,22 +154,25 @@ function GetNumberInputFieldValue(id, fromPutFunc = false) {
     return GetInputFieldValue(id) - 0
 }
 
-/** 
+/**
  * Get the value of the input field made by PutNumberInputFieldE().
- *  
+ *
  * @param {string} id id of the p tag
  * @returns {number} value calculated from the 2 input fields
  */
 function GetNumberInputFieldValueE(id) {
     const id_mantissa = MakeMantissaID(id)
     const id_exponent = MakeExponentID(id)
-    return GetNumberInputFieldValue(id_mantissa) * (10 ** GetNumberInputFieldValue(id_exponent))
+    return (
+        GetNumberInputFieldValue(id_mantissa) *
+        10 ** GetNumberInputFieldValue(id_exponent)
+    )
 }
 
 /**
  * Make ID for GetInputFieldValue().
  * This function is made for integration use.
- * 
+ *
  * @param {string} id id of the p tag
  * @returns {string} id of the input tag
  */
@@ -172,7 +183,7 @@ function MakeInputID(id) {
 /**
  * Make ID for GetInputFieldValueE().
  * This function is made for integration use.
- * 
+ *
  * @param {string} id id of the p tag
  * @returns {string} id of the input tag of mantissa
  */
@@ -183,7 +194,7 @@ function MakeMantissaID(id) {
 /**
  * Make ID for GetInputFieldValueE().
  * This function is made for integration use.
- * 
+ *
  * @param {string} id id of the p tag
  * @returns {string} id of the input tag of exponent
  */
@@ -193,21 +204,24 @@ function MakeExponentID(id) {
 
 /**
  * Put button invoked when clicked.
- * 
+ *
  * @param {string} id            ID of the HTML tag
  * @param {string} label         Label written on the button
  * @param {function} onClicked     Function called when clicked This will be multi-thread, so not recommended for beginners (Use IsHTMLUpdated() and GetHTMLButton())
  */
-function PutButton(id, label, onClicked = null){
+function PutButton(id, label, onClicked = null) {
     //document.write("<button id=\"" + id + "\" onclick=\"" + onClicked.name + "()\">" + label + "</button>")
     const button = document.createElement("button")
     button.id = id
     if (onClicked != null) {
         button.addEventListener("click", onClicked)
     }
-    button.addEventListener("click", __HSS_HTML_PRIVATE.StartListeningButton(button))
+    button.addEventListener(
+        "click",
+        __HSS_HTML_PRIVATE.StartListeningButton(button)
+    )
     button.appendChild(document.createTextNode(label))
-    
+
     document.body.appendChild(button)
 
     __HSS_HTML_PRIVATE.RegisterElementShowing(button)
@@ -219,23 +233,39 @@ function PutButton(id, label, onClicked = null){
 function StopAllTouchDefaults() {
     const canvas = document.getElementById(__CANVAS_NAME)
 
-    canvas.addEventListener("touchstart", function (e) {
-        e.preventDefault()
-    }, { passive: false })
-    canvas.addEventListener("touchmove", function (e) {
-        e.preventDefault()
-    }, { passive: false })
-    canvas.addEventListener("touchend", function (e) {
-        e.preventDefault()
-    }, { passive: false })
-    canvas.addEventListener("touchcancel", function (e) {
-        e.preventDefault()
-    }, { passive: false })
+    canvas.addEventListener(
+        "touchstart",
+        function (e) {
+            e.preventDefault()
+        },
+        { passive: false }
+    )
+    canvas.addEventListener(
+        "touchmove",
+        function (e) {
+            e.preventDefault()
+        },
+        { passive: false }
+    )
+    canvas.addEventListener(
+        "touchend",
+        function (e) {
+            e.preventDefault()
+        },
+        { passive: false }
+    )
+    canvas.addEventListener(
+        "touchcancel",
+        function (e) {
+            e.preventDefault()
+        },
+        { passive: false }
+    )
 }
 
-/** 
+/**
  * Get IDs of updated HTML elements.
- * 
+ *
  * @param {boolean} should_reset_list if true, reset the list after return.
  * @returns {string[]} IDs of updated HTML elements
  */
@@ -250,7 +280,7 @@ function GetUpdatedHTMLs(should_reset_list = true) {
 
 /**
  * Check if the given HTML element is updated by user input.
- * 
+ *
  * @param {string} id id of the HTML element to check
  * @param {boolean} should_remove If true, the element will be removed from the list after this.
  * @returns {boolean} Wheather the element is updated by user input.
@@ -258,7 +288,10 @@ function GetUpdatedHTMLs(should_reset_list = true) {
 function IsHTMLUpdated(id, should_remove = true) {
     const updated = __HSS_HTML_PRIVATE.updated_inputs.includes(id)
     if (updated && should_remove) {
-        __HSS_HTML_PRIVATE.updated_inputs.splice(__HSS_HTML_PRIVATE.updated_inputs.indexOf(id), 1)
+        __HSS_HTML_PRIVATE.updated_inputs.splice(
+            __HSS_HTML_PRIVATE.updated_inputs.indexOf(id),
+            1
+        )
     }
 
     return updated
@@ -266,23 +299,29 @@ function IsHTMLUpdated(id, should_remove = true) {
 
 /**
  * Remove the HTML element from the list of updated HTML elements.
- * 
+ *
  * @param {string} id   id of the HTML element to remove
  */
 function RemoveHTMLUpdateList(id) {
     if (__HSS_HTML_PRIVATE.updated_inputs.includes(id)) {
-        __HSS_HTML_PRIVATE.updated_inputs.splice(__HSS_HTML_PRIVATE.updated_inputs.indexOf(id), 1)
+        __HSS_HTML_PRIVATE.updated_inputs.splice(
+            __HSS_HTML_PRIVATE.updated_inputs.indexOf(id),
+            1
+        )
     }
 }
 
 /**
  * Start listening to the button, enables to get the status by isHTMLUpdated().
- * 
- * @param {string} id   HTML id of the button 
+ *
+ * @param {string} id   HTML id of the button
  */
 function StartListenButton(id) {
     const button = document.getElementById(id)
-    button.addEventListener("click", __HSS_HTML_PRIVATE.StartListeningButton(button))
+    button.addEventListener(
+        "click",
+        __HSS_HTML_PRIVATE.StartListeningButton(button)
+    )
 }
 
 //--------------------Not for users--------------------
@@ -297,9 +336,9 @@ class __HSS_HTML_Private {
     //IDs of html tag updated by user input
     updated_inputs = []
 
-    RegisterElementShowing(tag){
+    RegisterElementShowing(tag) {
         this.elements_showing.push(tag)
-    }    
+    }
 
     StartListeningChange() {
         //listen to input
