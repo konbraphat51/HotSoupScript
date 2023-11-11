@@ -11,5 +11,5 @@
  * @returns {boolean} Wheather a ~ b.
  */
 function Approximate(a, b, error = 1e-5) {
-    return Math.abs(a - b) < error
+	return Math.abs(a - b) < error
 }
