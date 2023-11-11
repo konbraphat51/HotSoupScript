@@ -11,6 +11,7 @@
 		"no-unused-vars": "off",
 		"singleQuote": "off",
 		"no-undef": "off", // for not writing globals in every file
-		"camelCase": "off" //private starts from _
+		"camelCase": "off", //private starts from _
+		"spaced-comment": "off"
 	}
 }
