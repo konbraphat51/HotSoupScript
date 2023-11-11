@@ -1,7 +1,7 @@
 {
 	"extends": ["eslint:recommended"],
 	"plugins": [],
-	"parserOptions": {},
+	"parserOptions": {"ecmaVersion": "latest"},
 	"env": {"browser": true},
 	"globals": {},
 	"rules": {
