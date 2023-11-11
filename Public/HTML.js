@@ -343,28 +343,23 @@ class __HSS_HTML_Private {
 	StartListeningChange() {
 		//listen to input
 		document.addEventListener("change", function (e) {
-			//prevent duplication
-			if (__HSS_HTML_PRIVATE.updated_inputs.includes(e.target.id)) {
-				return
-			}
-
-			__HSS_HTML_PRIVATE.updated_inputs.push(e.target.id)
+			__HSS_HTML_PRIVATE._OnUpdated(e.target.id)
 		})
 	}
 
 	StartListeningButton(element) {
-		this._StartListening("click")
+		element.addEventListener("click", function (e) {
+			__HSS_HTML_PRIVATE._OnUpdated(e.target.id)
+		})
 	}
 
-	_StartListening(event_name) {
-		document.addEventListener(event_name, function (e) {
-			//prevent duplication
-			if (__HSS_HTML_PRIVATE.updated_inputs.includes(e.target.id)) {
-				return
-			}
+	_OnUpdated(id) {
+		//prevent duplication
+		if (__HSS_HTML_PRIVATE.updated_inputs.includes(id)) {
+			return
+		}
 
-			__HSS_HTML_PRIVATE.updated_inputs.push(e.target.id)
-		})
+		__HSS_HTML_PRIVATE.updated_inputs.push(id)
 	}
 }
 
