@@ -224,7 +224,7 @@ class __HSS_Graphics_Private {
 
 	async WaitForLoaded() {
 		//busy wait
-		while (true) {
+		for (;;) {
 			//check if all loaded
 			let loaded = true
 			for (let i = 0; i < __HSS_GRAPHICS_PRIVATE.images_loaded.length; i++) {
