@@ -9,6 +9,7 @@
 		"indent": ["error", "tab"],
 		"no-console": "off",
 		"no-unused-vars": "off",
-		"singleQuote": "off"
+		"singleQuote": "off",
+		"no-undef": "off" // for not writing globals in every file
 	}
 }
