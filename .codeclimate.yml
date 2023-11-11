@@ -1,0 +1,66 @@
+version: "2" # required to adjust maintainability checks
+
+checks:
+  argument-count:
+    enabled: true
+    config:
+      threshold: 10
+  complex-logic:
+    enabled: true
+    config:
+      threshold: 4
+  file-lines:
+    enabled: true
+    config:
+      threshold: 2000
+  method-complexity:
+    enabled: true
+    config:
+      threshold: 10
+  method-count:
+    enabled: false
+    config:
+      threshold: 20
+  method-lines:
+    enabled: true
+    config:
+      threshold: 50
+  nested-control-flow:
+    enabled: true
+    config:
+      threshold: 6
+  return-statements:
+    enabled: true
+    config:
+      threshold: 3
+  similar-code:
+    enabled: true
+    config:
+      threshold: #language-specific defaults. overrides affect all languages.
+  identical-code:
+    enabled: true
+    config:
+      threshold: #language-specific defaults. overrides affect all languages.
+
+# plugins:
+#   eslint:
+#     enabled: true
+#     channel: "eslint-6"
+#   rubocop:
+#     enabled: true
+#     channel: "rubocop-0-79"
+
+exclude_patterns:
+  - "config/"
+  - "db/"
+  - "dist/"
+  - "features/"
+  - "**/node_modules/"
+  - "script/"
+  - "**/spec/"
+  - "**/test/"
+  - "**/tests/"
+  - "Tests/"
+  - "**/vendor/"
+  - "**/*_test.go"
+  - "**/*.d.ts"
