@@ -1,6 +1,6 @@
 # HotSoupScript
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/6e17437582b641c39a8f76a619731dab)](https://app.codacy.com/gh/konbraphat51/HotSoupScript/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade)
-<a href="https://codeclimate.com/github/konbraphat51/HotSoupScript/maintainability"><img src="https://api.codeclimate.com/v1/badges/129a32ee61aed12df9eb/maintainability" /></a>  
+<a href="https://codeclimate.com/github/konbraphat51/HotSoupScript/maintainability"><img src="https://api.codeclimate.com/v1/badges/129a32ee61aed12df9eb/maintainability" /></a><br>
 This library enables programming beginers to make an artistic (especially game) programming easily.  
   
 This is inspired by [HSP Language](https://hsp.tv/) which is widely used for kid's coding.
