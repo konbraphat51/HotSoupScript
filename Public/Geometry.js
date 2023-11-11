@@ -65,6 +65,24 @@ function PlusVec(vec1, vec2) {
 }
 
 /**
+ * Multiply a vector by a scalar.
+ * 
+ * @param {number} scalar Should be a number, not a vector.
+ * @param {number[]} vec The original vector won't be changed.
+ * @returns {number[]} The multiplied vector.
+ */
+function MultiplyVec(scalar, vec) {
+    const dimention = vec.length
+
+    let output = Array(dimention)
+    for (let i = 0; i < dimention; i++) {
+        output[i] = vec[i] * scalar
+    }
+
+    return output
+}
+
+/**
  * Minus 2 vectors. (vec1 - vec2)
  * The input vectors won't be changed.
  * 
@@ -73,14 +91,7 @@ function PlusVec(vec1, vec2) {
  * @return {number[]} The difference vector of 2 vectors.
  */
 function MinusVec(vec1, vec2) {
-    const dimention = vec1.length
-
-    let output = Array(dimention)
-    for (let i = 0; i < dimention; i++) {
-        output[i] = vec1[i] - vec2[i]
-    }
-
-    return output
+    return PlusVec(vec1, MultiplyVec(-1, vec2))
 }
 
 /**
@@ -119,24 +130,6 @@ function NormalizeVec(vec) {
 
     for (let i = 0; i < dimention; i++) {
         output[i] /= length
-    }
-
-    return output
-}
-
-/**
- * Multiply a vector by a scalar.
- * 
- * @param {number} scalar Should be a number, not a vector.
- * @param {number[]} vec The original vector won't be changed.
- * @returns {number[]} The multiplied vector.
- */
-function MultiplyVec(scalar, vec) {
-    const dimention = vec.length
-
-    let output = Array(dimention)
-    for (let i = 0; i < dimention; i++) {
-        output[i] = vec[i] * scalar
     }
 
     return output
