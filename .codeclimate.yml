@@ -4,7 +4,7 @@ checks:
   argument-count:
     enabled: true
     config:
-      threshold: 4
+      threshold: 10
   complex-logic:
     enabled: true
     config:
@@ -16,7 +16,7 @@ checks:
   method-complexity:
     enabled: true
     config:
-      threshold: 5
+      threshold: 10
   method-count:
     enabled: false
     config:
@@ -28,11 +28,11 @@ checks:
   nested-control-flow:
     enabled: true
     config:
-      threshold: 4
+      threshold: 6
   return-statements:
     enabled: true
     config:
-      threshold: 4
+      threshold: 3
   similar-code:
     enabled: true
     config:
