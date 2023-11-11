@@ -239,6 +239,7 @@ class __HSS_Graphics_Private {
 			}
 
 			//wait for 1ms
+			// loaded event will come in this sleep
 			await Sleep(1)
 		}
 
