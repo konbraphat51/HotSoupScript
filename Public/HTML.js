@@ -130,6 +130,39 @@ function PutNumberInputFieldE(id, label, value, onChanged = null) {
 }
 
 /**
+ * Put a checkbox in the HTML.
+ * 
+ * Get this value by GetCheckBoxValue().
+ * 
+ * @param {string} id id of the P tag. The id of the input tag will be "{id}_input"
+ * @param {string} label shown left of the checkbox
+ * @param {boolean} value initial value
+ * @param {function} onChanged function called when changed (no parameter given to this function)
+ * @returns 
+ */
+function PutCheckBox(id, label, value, onChanged = null) {
+	let inputfieldID = MakeInputID(id)
+
+	const p = document.createElement("p")
+	p.id = id
+	const input = document.createElement("input")
+	input.type = "checkbox"
+	input.id = inputfieldID
+	input.checked = value
+	if (onChanged != null) {
+		input.addEventListener("change", onChanged)
+	}
+	p.appendChild(document.createTextNode(label + ": "))
+	p.appendChild(input)
+
+	document.body.appendChild(p)
+
+	__HSS_HTML_PRIVATE.RegisterElementShowing(p)
+
+	return [id, inputfieldID]
+}
+
+/**
  * Get the value of the input field. Same as the document function.
  *
  * @param {string} id id of the input tag
@@ -167,6 +200,21 @@ function GetNumberInputFieldValueE(id) {
 		GetNumberInputFieldValue(id_mantissa) *
 		10 ** GetNumberInputFieldValue(id_exponent)
 	)
+}
+
+/**
+ * Get the value of the checkbox.
+ * 
+ * @param {string} id id of the checkbox input tag 
+ * @param {boolean} fromPutFunc When made by PutCheckBox(), set true.
+ * @returns {boolean} value of the checkbox
+ */
+function GetCheckBoxValue(id, fromPutFunc = false) {
+	if (fromPutFunc) {
+		id = MakeInputID(id)
+	}
+
+	return document.getElementById(id).checked
 }
 
 /**
@@ -238,28 +286,28 @@ function StopAllTouchDefaults() {
 		function (e) {
 			e.preventDefault()
 		},
-		{passive: false},
+		{ passive: false },
 	)
 	canvas.addEventListener(
 		"touchmove",
 		function (e) {
 			e.preventDefault()
 		},
-		{passive: false},
+		{ passive: false },
 	)
 	canvas.addEventListener(
 		"touchend",
 		function (e) {
 			e.preventDefault()
 		},
-		{passive: false},
+		{ passive: false },
 	)
 	canvas.addEventListener(
 		"touchcancel",
 		function (e) {
 			e.preventDefault()
 		},
-		{passive: false},
+		{ passive: false },
 	)
 }
 
