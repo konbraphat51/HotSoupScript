@@ -168,6 +168,25 @@ function DrawImageByVec(picture_data, pos, width, height) {
 }
 
 /**
+ * Draw a polygon 
+ *
+ * @param {number[][]} edges	Position vectors of edges of polygon
+ */
+function DrawPolygon(edges) {
+	if (edges.length < 3) {
+		return
+	}
+
+	__HSS_GRAPHICS_PRIVATE.ctx.beginPath()
+	__HSS_GRAPHICS_PRIVATE.ctx.moveTo(edges[0][0], edges[0][1])
+	for (let i = 1; i < edges.length; i++) {
+		__HSS_GRAPHICS_PRIVATE.ctx.lineTo(edges[i][0], edges[i][1])
+	}
+	__HSS_GRAPHICS_PRIVATE.ctx.closePath()
+	__HSS_GRAPHICS_PRIVATE.ctx.fill()
+}
+
+/**
  * Load picture data. Give this data to DrawPicture().
  * This will wait until the picture is loaded. So you may load this in the first place.
  *
@@ -224,7 +243,7 @@ class __HSS_Graphics_Private {
 
 	async WaitForLoaded() {
 		//busy wait
-		for (;;) {
+		for (; ;) {
 			//check if all loaded
 			let loaded = true
 			for (let i = 0; i < __HSS_GRAPHICS_PRIVATE.images_loaded.length; i++) {
