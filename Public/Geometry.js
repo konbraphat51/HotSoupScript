@@ -39,8 +39,9 @@ function GetDistanceFromLine2D(point, line_start, line_direction) {
 function IsLineSegmentIntersecting(line0_start, line0_end, line1_start, line1_end) {
 	// https://qiita.com/zu_rin/items/e04fdec4e3dec6072104
 
-	let s = (line0_start[0] - line0_end[0]) * (line1_start[1] - line0_start[1]) + (line0_start[1] - line0_end[1]) * (line1_start[0] - line0_start[0])
-	let t = (line0_start[0] - line0_end[0]) * (line1_end[1] - line0_start[1]) + (line0_start[1] - line0_end[1]) * (line1_end[0] - line0_start[0])
+	let s = (line0_start[0] - line0_end[0]) * (line1_start[1] - line0_start[1]) - (line0_start[1] - line0_end[1]) * (line1_start[0] - line0_start[0])
+	let t = (line0_start[0] - line0_end[0]) * (line1_end[1] - line0_start[1]) - (line0_start[1] - line0_end[1]) * (line1_end[0] - line0_start[0])
+
 
 	if (Approximate(s, 0) || Approximate(t, 0)) {
 		// on line
@@ -50,8 +51,8 @@ function IsLineSegmentIntersecting(line0_start, line0_end, line1_start, line1_en
 		return false
 	}
 
-	s = (line1_start[0] - line1_end[0]) * (line0_start[1] - line1_start[1]) + (line1_start[1] - line1_end[1]) * (line0_start[0] - line1_start[0])
-	t = (line1_start[0] - line1_end[0]) * (line0_end[1] - line1_start[1]) + (line1_start[1] - line1_end[1]) * (line0_end[0] - line1_start[0])
+	s = (line1_start[0] - line1_end[0]) * (line0_start[1] - line1_start[1]) - (line1_start[1] - line1_end[1]) * (line0_start[0] - line1_start[0])
+	t = (line1_start[0] - line1_end[0]) * (line0_end[1] - line1_start[1]) - (line1_start[1] - line1_end[1]) * (line0_end[0] - line1_start[0])
 
 	if (Approximate(s, 0) || Approximate(t, 0)) {
 		// on line
@@ -60,6 +61,8 @@ function IsLineSegmentIntersecting(line0_start, line0_end, line1_start, line1_en
 		// on same side
 		return false
 	}
+
+	return true
 }
 
 /*
@@ -362,7 +365,6 @@ class Polygon {
 				intersected++
 			}
 		}
-
 		return intersected % 2 == 1
 	}
 
