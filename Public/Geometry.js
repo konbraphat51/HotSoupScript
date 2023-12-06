@@ -281,6 +281,19 @@ class Polygon {
 
 		return edges_moved
 	}
+
+	/**
+	 * Clone this polygon
+	 * @returns {Polygon} cloned polygon
+	 */
+	Clone() {
+		return new Polygon(
+			this.edges_unrotated,
+			this.center,
+			this.rotation,
+			this.scale,
+		)
+	}
 }
 
 async function LoadPolygons(filenames) {
