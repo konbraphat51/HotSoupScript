@@ -35,6 +35,7 @@ function SetFont(text) {
  */
 function SetColor(color) {
 	__HSS_GRAPHICS_PRIVATE.ctx.fillStyle = color
+	__HSS_GRAPHICS_PRIVATE.ctx.strokeStyle = color
 }
 
 /**
