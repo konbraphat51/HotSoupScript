@@ -27,6 +27,41 @@ function GetDistanceFromLine2D(point, line_start, line_direction) {
 	return DotVec(p2s, normalVector) / normalVector.length
 }
 
+/**
+ * Judge if two 2D line segment are crossing.
+ *
+ * @param {number[]} line0_start positional vector of the start point of the line 0
+ * @param {number[]} line0_end   positional vector of the end point of the line 0
+ * @param {number[]} line1_start positional vector of the start point of the line 1
+ * @param {number[]} line1_end   positional vector of the end point of the line 1
+ * @returns {boolean} whether the two line segments are crossing
+ */
+function IsLineSegmentIntersecting(line0_start, line0_end, line1_start, line1_end) {
+	// https://qiita.com/zu_rin/items/e04fdec4e3dec6072104
+
+	let s = (line0_start[0] - line0_end[0]) * (line1_start[1] - line0_start[1]) + (line0_start[1] - line0_end[1]) * (line1_start[0] - line0_start[0])
+	let t = (line0_start[0] - line0_end[0]) * (line1_end[1] - line0_start[1]) + (line0_start[1] - line0_end[1]) * (line1_end[0] - line0_start[0])
+
+	if (Approximate(s, 0) || Approximate(t, 0)) {
+		// on line
+		return false
+	} else if (s * t > 0) {
+		// on same side
+		return false
+	}
+
+	s = (line1_start[0] - line1_end[0]) * (line0_start[1] - line1_start[1]) + (line1_start[1] - line1_end[1]) * (line0_start[0] - line1_start[0])
+	t = (line1_start[0] - line1_end[0]) * (line0_end[1] - line1_start[1]) + (line1_start[1] - line1_end[1]) * (line0_end[0] - line1_start[0])
+
+	if (Approximate(s, 0) || Approximate(t, 0)) {
+		// on line
+		return false
+	} else if (s * t > 0) {
+		// on same side
+		return false
+	}
+}
+
 /*
 # Vectors
 
@@ -308,6 +343,29 @@ class Polygon {
 
 		return edges_moved
 	}
+
+	/**
+	 * Judge if a given point is inside this polygon.
+	 * 
+	 * @param {number[]} point Abosolute positional vector of the point
+	 * @returns {boolean} whether the point is inside this polygon
+	 */
+	IsPointInside(point, x_faraway = 1e5, y_faraway = 1e5) {
+		let edges = this.Compute_Edges()
+
+		let intersected = 0
+		for (let cnt = 0; cnt < edges.length; cnt++) {
+			let edge_start = edges[cnt]
+			let edge_end = edges[(cnt + 1) % edges.length]
+
+			if (IsLineSegmentIntersecting(point, [x_faraway, y_faraway], edge_start, edge_end)) {
+				intersected++
+			}
+		}
+
+		return intersected % 2 == 1
+	}
+
 
 	/**
 	 * Clone this polygon
