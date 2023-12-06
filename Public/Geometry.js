@@ -229,3 +229,84 @@ function Rotate2DVector(vec, angle_delta, is_radian = false) {
 	const s = Math.sin(angle_delta)
 	return [x * c - y * s, x * s + y * c]
 }
+
+class Polygon {
+	/**
+	 * @param {number[][]} edges	relative (from center) positional vectors of the edges of the polygon
+	 * @param {number[]} center		positional vector of the center of the polygon
+	 * @param {number} rotation		rotation of the polygon (degrees, counterclockwise)
+	 * @param {number} scale		scale of the polygon
+	 */
+	constructor(edges, center = [0, 0], rotation = 0, scale = 1) {
+		this.edges_unrotated = edges
+		this.center = center
+		this.rotation = rotation
+		this.scale = scale
+	}
+
+	/**
+	 * Draw this polygon 
+	 */
+	Draw() {
+		let edges = this.Compute_Edges()
+
+		DrawPolygon(edges)
+	}
+
+	/**
+	 * Compute abosolute positions edges of the polygon after rotation and moving by center.
+	 * 
+	 * @returns {number[][]} absolute positional vectors of the edges of the polygon
+	 */
+	Compute_Edges() {
+		let edges_moved = new Array(this.edges_unrotated.length)
+		let rotation = (this.rotation * Math.PI) / 180
+
+		for (let cnt = 0; cnt < this.edges_unrotated.length; cnt++) {
+			//rotation
+			let x_before = this.edges_unrotated[cnt][0]
+			let y_before = this.edges_unrotated[cnt][1]
+
+			let x_after = x_before * Math.cos(rotation) - y_before * Math.sin(rotation)
+			let y_after = x_before * Math.sin(rotation) + y_before * Math.cos(rotation)
+
+			edges_moved[cnt] = [x_after, y_after]
+
+			//scale
+			edges_moved[cnt] = MultiplyVec(this.scale, edges_moved[cnt])
+
+			//move by center
+			edges_moved[cnt] = PlusVec(edges_moved[cnt], this.center)
+		}
+
+		return edges_moved
+	}
+}
+
+async function LoadPolygons(filenames) {
+	let data = await LoadFiles(filenames)
+
+	let polygons = new Array(data.length)
+
+	for (let cnt = 0; cnt < data.length; cnt++) {
+		let lines = data[cnt].split("\n")
+
+		let edges = []
+
+		for (let cnt2 = 0; cnt2 < lines.length; cnt2++) {
+			let line = lines[cnt2]
+
+			if (line == "") {
+				continue
+			}
+
+			let numbers = line.split(",")
+
+			edges.push([parseFloat(numbers[0]), parseFloat(numbers[1])])
+		}
+
+		polygons[cnt] = new Polygon(edges, [0, 0], 0)
+	}
+
+	return polygons
+}

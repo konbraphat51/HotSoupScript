@@ -59,7 +59,7 @@ function Log(anything) {
  * 							If the file is in Assets/a/b/c.txt, input "a/b/c.txt"
  * @returns {string} The content of the file
  */
-async function LoadFile(filenames) {
+async function LoadFiles(filenames) {
 	let data = new Array(filenames.length)
 
 	let data_loaded = new Array(filenames.length)
