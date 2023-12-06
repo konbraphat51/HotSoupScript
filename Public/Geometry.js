@@ -114,6 +114,33 @@ function DotVec(vec1, vec2) {
 }
 
 /**
+ * Cross product of 2 vectors.
+ * Only defined for 2D and 3D vectors.
+ * 
+ * @param {number[]} vec1 2D or 3D vector
+ * @param {number[]} vec2 2D or 3D vector
+ * @returns {number[]} The cross product of 2 vectors.
+ */
+function CrossVec(vec1, vec2) {
+	// if 2D...
+	if (vec1.length == 2) {
+		return vec1[0] * vec2[1] - vec1[1] * vec2[0]
+	}
+	// if 3D...
+	else if (vec1.length == 3) {
+		return [
+			vec1[1] * vec2[2] - vec1[2] * vec2[1],
+			vec1[2] * vec2[0] - vec1[0] * vec2[2],
+			vec1[0] * vec2[1] - vec1[1] * vec2[0],
+		]
+	}
+	// if other dimension...
+	else {
+		throw "Cross product is currently only defined for 2D and 3D vectors!"
+	}
+}
+
+/**
  * Normalize a vector.
  *
  * @param {number[]} vec The original vector won't be changed.
