@@ -27,6 +27,44 @@ function GetDistanceFromLine2D(point, line_start, line_direction) {
 	return DotVec(p2s, normalVector) / normalVector.length
 }
 
+/**
+ * Judge if two 2D line segment are crossing.
+ *
+ * @param {number[]} line0_start positional vector of the start point of the line 0
+ * @param {number[]} line0_end   positional vector of the end point of the line 0
+ * @param {number[]} line1_start positional vector of the start point of the line 1
+ * @param {number[]} line1_end   positional vector of the end point of the line 1
+ * @returns {boolean} whether the two line segments are crossing
+ */
+function IsLineSegmentIntersecting(line0_start, line0_end, line1_start, line1_end) {
+	// https://qiita.com/zu_rin/items/e04fdec4e3dec6072104
+
+	let s = (line0_start[0] - line0_end[0]) * (line1_start[1] - line0_start[1]) - (line0_start[1] - line0_end[1]) * (line1_start[0] - line0_start[0])
+	let t = (line0_start[0] - line0_end[0]) * (line1_end[1] - line0_start[1]) - (line0_start[1] - line0_end[1]) * (line1_end[0] - line0_start[0])
+
+
+	if (Approximate(s, 0) || Approximate(t, 0)) {
+		// on line
+		return false
+	} else if (s * t > 0) {
+		// on same side
+		return false
+	}
+
+	s = (line1_start[0] - line1_end[0]) * (line0_start[1] - line1_start[1]) - (line1_start[1] - line1_end[1]) * (line0_start[0] - line1_start[0])
+	t = (line1_start[0] - line1_end[0]) * (line0_end[1] - line1_start[1]) - (line1_start[1] - line1_end[1]) * (line0_end[0] - line1_start[0])
+
+	if (Approximate(s, 0) || Approximate(t, 0)) {
+		// on line
+		return false
+	} else if (s * t > 0) {
+		// on same side
+		return false
+	}
+
+	return true
+}
+
 /*
 # Vectors
 
@@ -111,6 +149,33 @@ function DotVec(vec1, vec2) {
 	}
 
 	return output
+}
+
+/**
+ * Cross product of 2 vectors.
+ * Only defined for 2D and 3D vectors.
+ * 
+ * @param {number[]} vec1 2D or 3D vector
+ * @param {number[]} vec2 2D or 3D vector
+ * @returns {number[]} The cross product of 2 vectors.
+ */
+function CrossVec(vec1, vec2) {
+	// if 2D...
+	if (vec1.length == 2) {
+		return vec1[0] * vec2[1] - vec1[1] * vec2[0]
+	}
+	// if 3D...
+	else if (vec1.length == 3) {
+		return [
+			vec1[1] * vec2[2] - vec1[2] * vec2[1],
+			vec1[2] * vec2[0] - vec1[0] * vec2[2],
+			vec1[0] * vec2[1] - vec1[1] * vec2[0],
+		]
+	}
+	// if other dimension...
+	else {
+		throw "Cross product is currently only defined for 2D and 3D vectors!"
+	}
 }
 
 /**
@@ -228,4 +293,120 @@ function Rotate2DVector(vec, angle_delta, is_radian = false) {
 	const c = Math.cos(angle_delta)
 	const s = Math.sin(angle_delta)
 	return [x * c - y * s, x * s + y * c]
+}
+
+class Polygon {
+	/**
+	 * @param {number[][]} edges	relative (from center) positional vectors of the edges of the polygon
+	 * @param {number[]} center		positional vector of the center of the polygon
+	 * @param {number} rotation		rotation of the polygon (degrees, counterclockwise)
+	 * @param {number} scale		scale of the polygon
+	 */
+	constructor(edges, center = [0, 0], rotation = 0, scale = 1) {
+		this.edges_unrotated = edges
+		this.center = center
+		this.rotation = rotation
+		this.scale = scale
+	}
+
+	/**
+	 * Draw this polygon 
+	 */
+	Draw() {
+		let edges = this.Compute_Edges()
+
+		DrawPolygon(edges)
+	}
+
+	/**
+	 * Compute abosolute positions edges of the polygon after rotation and moving by center.
+	 * 
+	 * @returns {number[][]} absolute positional vectors of the edges of the polygon
+	 */
+	Compute_Edges() {
+		let edges_moved = new Array(this.edges_unrotated.length)
+		let rotation = (this.rotation * Math.PI) / 180
+
+		for (let cnt = 0; cnt < this.edges_unrotated.length; cnt++) {
+			//rotation
+			let x_before = this.edges_unrotated[cnt][0]
+			let y_before = this.edges_unrotated[cnt][1]
+
+			let x_after = x_before * Math.cos(rotation) - y_before * Math.sin(rotation)
+			let y_after = x_before * Math.sin(rotation) + y_before * Math.cos(rotation)
+
+			edges_moved[cnt] = [x_after, y_after]
+
+			//scale
+			edges_moved[cnt] = MultiplyVec(this.scale, edges_moved[cnt])
+
+			//move by center
+			edges_moved[cnt] = PlusVec(edges_moved[cnt], this.center)
+		}
+
+		return edges_moved
+	}
+
+	/**
+	 * Judge if a given point is inside this polygon.
+	 * 
+	 * @param {number[]} point Abosolute positional vector of the point
+	 * @returns {boolean} whether the point is inside this polygon
+	 */
+	IsPointInside(point, x_faraway = 1e5, y_faraway = 1e5) {
+		let edges = this.Compute_Edges()
+
+		let intersected = 0
+		for (let cnt = 0; cnt < edges.length; cnt++) {
+			let edge_start = edges[cnt]
+			let edge_end = edges[(cnt + 1) % edges.length]
+
+			if (IsLineSegmentIntersecting(point, [x_faraway, y_faraway], edge_start, edge_end)) {
+				intersected++
+			}
+		}
+		return intersected % 2 == 1
+	}
+
+
+	/**
+	 * Clone this polygon
+	 * @returns {Polygon} cloned polygon
+	 */
+	Clone() {
+		return new Polygon(
+			this.edges_unrotated,
+			this.center,
+			this.rotation,
+			this.scale,
+		)
+	}
+}
+
+async function LoadPolygons(filenames) {
+	let data = await LoadFiles(filenames)
+
+	let polygons = new Array(data.length)
+
+	for (let cnt = 0; cnt < data.length; cnt++) {
+		let lines = data[cnt].split("\n")
+
+		let edges = []
+
+		for (let cnt2 = 0; cnt2 < lines.length; cnt2++) {
+			let line = lines[cnt2]
+
+			if (line == "") {
+				continue
+			}
+
+			let numbers = line.split(",")
+
+			edges.push([parseFloat(numbers[0]), parseFloat(numbers[1])])
+		}
+
+		polygons[cnt] = new Polygon(edges, [0, 0], 0)
+	}
+
+	return polygons
 }

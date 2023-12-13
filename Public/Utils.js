@@ -51,3 +51,55 @@ function CopyArray(ar) {
 function Log(anything) {
 	console.log(anything)
 }
+
+/**
+ * Load a file from assets folder
+ * 
+ * @param {string[]} filenames - The name of the in the assets folder.
+ * 							If the file is in Assets/a/b/c.txt, input "a/b/c.txt"
+ * @returns {string} The content of the file
+ */
+async function LoadFiles(filenames) {
+	let data = new Array(filenames.length)
+
+	let data_loaded = new Array(filenames.length)
+	data_loaded.fill(false)
+
+	//start loading all files
+	for (let cnt = 0; cnt < filenames.length; cnt++) {
+		let filename = filenames[cnt]
+
+		fetch("Assets/" + filename)
+			.then(response => {
+				if (!response.ok) {
+					throw new Error('Failed to load file');
+				}
+				return response.text();
+			})
+			.then(_data => {
+				data[cnt] = _data
+				data_loaded[cnt] = true
+			})
+			.catch(error => {
+				console.error('FileRedingError: ', error);
+			})
+	}
+
+	// wait for all images to load
+	for (; ;) {
+		let all_loaded = true
+		data_loaded.forEach((loaded) => {
+			if (!loaded) {
+				all_loaded = false
+			}
+		})
+
+		if (all_loaded) {
+			break
+		}
+
+		await Sleep(1)
+	}
+
+	return data
+}
