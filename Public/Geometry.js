@@ -285,7 +285,7 @@ function IsApproximatelyZeroVector(vec) {
  * Using 2D rotation matrix.
  *
  * @param {number[]} vec    vector to be rotated
- * @param {number} angle_delta  angle to rotate.
+ * @param {number} angle_delta  angle to rotate. clockwise,
  * @param {boolean} is_radian   whether angle_delta is radian or degree.
  * @returns {number[]} rotated vector
  */
