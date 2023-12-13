@@ -36,12 +36,20 @@ function GetDistanceFromLine2D(point, line_start, line_direction) {
  * @param {number[]} line1_end   positional vector of the end point of the line 1
  * @returns {boolean} whether the two line segments are crossing
  */
-function IsLineSegmentIntersecting(line0_start, line0_end, line1_start, line1_end) {
+function IsLineSegmentIntersecting(
+	line0_start,
+	line0_end,
+	line1_start,
+	line1_end,
+) {
 	// https://qiita.com/zu_rin/items/e04fdec4e3dec6072104
 
-	let s = (line0_start[0] - line0_end[0]) * (line1_start[1] - line0_start[1]) - (line0_start[1] - line0_end[1]) * (line1_start[0] - line0_start[0])
-	let t = (line0_start[0] - line0_end[0]) * (line1_end[1] - line0_start[1]) - (line0_start[1] - line0_end[1]) * (line1_end[0] - line0_start[0])
-
+	let s =
+		(line0_start[0] - line0_end[0]) * (line1_start[1] - line0_start[1]) -
+		(line0_start[1] - line0_end[1]) * (line1_start[0] - line0_start[0])
+	let t =
+		(line0_start[0] - line0_end[0]) * (line1_end[1] - line0_start[1]) -
+		(line0_start[1] - line0_end[1]) * (line1_end[0] - line0_start[0])
 
 	if (Approximate(s, 0) || Approximate(t, 0)) {
 		// on line
@@ -51,8 +59,12 @@ function IsLineSegmentIntersecting(line0_start, line0_end, line1_start, line1_en
 		return false
 	}
 
-	s = (line1_start[0] - line1_end[0]) * (line0_start[1] - line1_start[1]) - (line1_start[1] - line1_end[1]) * (line0_start[0] - line1_start[0])
-	t = (line1_start[0] - line1_end[0]) * (line0_end[1] - line1_start[1]) - (line1_start[1] - line1_end[1]) * (line0_end[0] - line1_start[0])
+	s =
+		(line1_start[0] - line1_end[0]) * (line0_start[1] - line1_start[1]) -
+		(line1_start[1] - line1_end[1]) * (line0_start[0] - line1_start[0])
+	t =
+		(line1_start[0] - line1_end[0]) * (line0_end[1] - line1_start[1]) -
+		(line1_start[1] - line1_end[1]) * (line0_end[0] - line1_start[0])
 
 	if (Approximate(s, 0) || Approximate(t, 0)) {
 		// on line
@@ -154,7 +166,7 @@ function DotVec(vec1, vec2) {
 /**
  * Cross product of 2 vectors.
  * Only defined for 2D and 3D vectors.
- * 
+ *
  * @param {number[]} vec1 2D or 3D vector
  * @param {number[]} vec2 2D or 3D vector
  * @returns {number[]} The cross product of 2 vectors.
@@ -310,20 +322,20 @@ class Polygon {
 	}
 
 	/**
-	 * Draw this polygon 
+	 * Draw this polygon
 	 */
 	Draw() {
-		let edges = this.Compute_Edges()
+		let edges = this.ComputeEdges()
 
 		DrawPolygon(edges)
 	}
 
 	/**
 	 * Compute abosolute positions edges of the polygon after rotation and moving by center.
-	 * 
+	 *
 	 * @returns {number[][]} absolute positional vectors of the edges of the polygon
 	 */
-	Compute_Edges() {
+	ComputeEdges() {
 		let edges_moved = new Array(this.edges_unrotated.length)
 		let rotation = (this.rotation * Math.PI) / 180
 
@@ -332,8 +344,10 @@ class Polygon {
 			let x_before = this.edges_unrotated[cnt][0]
 			let y_before = this.edges_unrotated[cnt][1]
 
-			let x_after = x_before * Math.cos(rotation) - y_before * Math.sin(rotation)
-			let y_after = x_before * Math.sin(rotation) + y_before * Math.cos(rotation)
+			let x_after =
+				x_before * Math.cos(rotation) - y_before * Math.sin(rotation)
+			let y_after =
+				x_before * Math.sin(rotation) + y_before * Math.cos(rotation)
 
 			edges_moved[cnt] = [x_after, y_after]
 
@@ -349,25 +363,31 @@ class Polygon {
 
 	/**
 	 * Judge if a given point is inside this polygon.
-	 * 
+	 *
 	 * @param {number[]} point Abosolute positional vector of the point
 	 * @returns {boolean} whether the point is inside this polygon
 	 */
 	IsPointInside(point, x_faraway = 1e5, y_faraway = 1e5) {
-		let edges = this.Compute_Edges()
+		let edges = this.ComputeEdges()
 
 		let intersected = 0
 		for (let cnt = 0; cnt < edges.length; cnt++) {
 			let edge_start = edges[cnt]
 			let edge_end = edges[(cnt + 1) % edges.length]
 
-			if (IsLineSegmentIntersecting(point, [x_faraway, y_faraway], edge_start, edge_end)) {
+			if (
+				IsLineSegmentIntersecting(
+					point,
+					[x_faraway, y_faraway],
+					edge_start,
+					edge_end,
+				)
+			) {
 				intersected++
 			}
 		}
 		return intersected % 2 == 1
 	}
-
 
 	/**
 	 * Clone this polygon
