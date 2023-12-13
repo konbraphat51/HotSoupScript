@@ -309,13 +309,13 @@ function Rotate2DVector(vec, angle_delta, is_radian = false) {
 
 class Polygon {
 	/**
-	 * @param {number[][]} edges	relative (from center) positional vectors of the edges of the polygon
+	 * @param {number[][]} vertices	relative (from center) positional vectors of the vertices of the polygon
 	 * @param {number[]} center		positional vector of the center of the polygon
 	 * @param {number} rotation		rotation of the polygon (degrees, counterclockwise)
 	 * @param {number} scale		scale of the polygon
 	 */
-	constructor(edges, center = [0, 0], rotation = 0, scale = 1) {
-		this.edges_unrotated = edges
+	constructor(vertices, center = [0, 0], rotation = 0, scale = 1) {
+		this.vertices_unrotated = vertices
 		this.center = center
 		this.rotation = rotation
 		this.scale = scale
@@ -325,40 +325,40 @@ class Polygon {
 	 * Draw this polygon
 	 */
 	Draw() {
-		let edges = this.ComputeEdges()
+		let vertices = this.ComputeVertices()
 
-		DrawPolygon(edges)
+		DrawPolygon(vertices)
 	}
 
 	/**
-	 * Compute abosolute positions edges of the polygon after rotation and moving by center.
+	 * Compute abosolute positions vertices of the polygon after rotation and moving by center.
 	 *
-	 * @returns {number[][]} absolute positional vectors of the edges of the polygon
+	 * @returns {number[][]} absolute positional vectors of the vertices of the polygon
 	 */
-	ComputeEdges() {
-		let edges_moved = new Array(this.edges_unrotated.length)
+	ComputeVertices() {
+		let vertices_moved = new Array(this.vertices_unrotated.length)
 		let rotation = (this.rotation * Math.PI) / 180
 
-		for (let cnt = 0; cnt < this.edges_unrotated.length; cnt++) {
+		for (let cnt = 0; cnt < this.vertices_unrotated.length; cnt++) {
 			//rotation
-			let x_before = this.edges_unrotated[cnt][0]
-			let y_before = this.edges_unrotated[cnt][1]
+			let x_before = this.vertices_unrotated[cnt][0]
+			let y_before = this.vertices_unrotated[cnt][1]
 
 			let x_after =
 				x_before * Math.cos(rotation) - y_before * Math.sin(rotation)
 			let y_after =
 				x_before * Math.sin(rotation) + y_before * Math.cos(rotation)
 
-			edges_moved[cnt] = [x_after, y_after]
+			vertices_moved[cnt] = [x_after, y_after]
 
 			//scale
-			edges_moved[cnt] = MultiplyVec(this.scale, edges_moved[cnt])
+			vertices_moved[cnt] = MultiplyVec(this.scale, vertices_moved[cnt])
 
 			//move by center
-			edges_moved[cnt] = PlusVec(edges_moved[cnt], this.center)
+			vertices_moved[cnt] = PlusVec(vertices_moved[cnt], this.center)
 		}
 
-		return edges_moved
+		return vertices_moved
 	}
 
 	/**
@@ -368,19 +368,19 @@ class Polygon {
 	 * @returns {boolean} whether the point is inside this polygon
 	 */
 	IsPointInside(point, x_faraway = 1e5, y_faraway = 1e5) {
-		let edges = this.ComputeEdges()
+		let vertices = this.ComputeVertices()
 
 		let intersected = 0
-		for (let cnt = 0; cnt < edges.length; cnt++) {
-			let edge_start = edges[cnt]
-			let edge_end = edges[(cnt + 1) % edges.length]
+		for (let cnt = 0; cnt < vertices.length; cnt++) {
+			let vertex_start = vertices[cnt]
+			let vertex_end = vertices[(cnt + 1) % vertices.length]
 
 			if (
 				IsLineSegmentIntersecting(
 					point,
 					[x_faraway, y_faraway],
-					edge_start,
-					edge_end,
+					vertex_start,
+					vertex_end,
 				)
 			) {
 				intersected++
@@ -395,7 +395,7 @@ class Polygon {
 	 */
 	Clone() {
 		return new Polygon(
-			this.edges_unrotated,
+			this.vertices_unrotated,
 			this.center,
 			this.rotation,
 			this.scale,
@@ -411,7 +411,7 @@ async function LoadPolygons(filenames) {
 	for (let cnt = 0; cnt < data.length; cnt++) {
 		let lines = data[cnt].split("\n")
 
-		let edges = []
+		let vertices = []
 
 		for (let cnt2 = 0; cnt2 < lines.length; cnt2++) {
 			let line = lines[cnt2]
@@ -422,10 +422,10 @@ async function LoadPolygons(filenames) {
 
 			let numbers = line.split(",")
 
-			edges.push([parseFloat(numbers[0]), parseFloat(numbers[1])])
+			vertices.push([parseFloat(numbers[0]), parseFloat(numbers[1])])
 		}
 
-		polygons[cnt] = new Polygon(edges, [0, 0], 0)
+		polygons[cnt] = new Polygon(vertices, [0, 0], 0)
 	}
 
 	return polygons
