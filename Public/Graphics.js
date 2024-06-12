@@ -224,6 +224,72 @@ async function LoadImages(pathes) {
 	return imgs
 }
 
+/**
+ * Get a color of a pixel
+ *
+ * @param {number} x position X
+ * @param {number} y position Y
+ * @returns {number[]} [R, G, B, A]
+ */
+function PickColor(x, y) {
+	const data = __HSS_GRAPHICS_PRIVATE.ctx.getImageData(x, y, 1, 1).data
+	return [data[0], data[1], data[2], data[3]]
+}
+
+/**
+ * Get array of color data of all pixel
+ *
+ * @returns {number[][]} [[R, G, B, A], ...]
+ */
+function PickAllColor() {
+	const data = __HSS_GRAPHICS_PRIVATE.ctx.getImageData(
+		0,
+		0,
+		__HSS_GRAPHICS_PRIVATE.width,
+		__HSS_GRAPHICS_PRIVATE.height,
+	).data
+	const colors = []
+	for (let i = 0; i < data.length; i += 4) {
+		colors.push([data[i], data[i + 1], data[i + 2], data[i + 3]])
+	}
+	return colors
+}
+
+/**
+ * Set color of a pixel
+ *
+ * @param {number} x position X
+ * @param {number} y position Y
+ * @param {number[]} color [R, G, B, A]
+ */
+function SetPixelColor(x, y, color) {
+	const data = __HSS_GRAPHICS_PRIVATE.ctx.createImageData(1, 1)
+	data.data[0] = color[0]
+	data.data[1] = color[1]
+	data.data[2] = color[2]
+	data.data[3] = color[3]
+	__HSS_GRAPHICS_PRIVATE.ctx.putImageData(data, x, y)
+}
+
+/**
+ * Set all pixed from color array from PickAllColor()
+ *
+ * @param {number[][]} colors [[R, G, B, A], ...]
+ */
+function SetAllPixelColor(colors) {
+	const data = __HSS_GRAPHICS_PRIVATE.ctx.createImageData(
+		__HSS_GRAPHICS_PRIVATE.width,
+		__HSS_GRAPHICS_PRIVATE.height,
+	)
+	for (let i = 0; i < colors.length; i++) {
+		data.data[i * 4] = colors[i][0]
+		data.data[i * 4 + 1] = colors[i][1]
+		data.data[i * 4 + 2] = colors[i][2]
+		data.data[i * 4 + 3] = colors[i][3]
+	}
+	__HSS_GRAPHICS_PRIVATE.ctx.putImageData(data, 0, 0)
+}
+
 //---------------------Not for using---------------------
 
 /**
