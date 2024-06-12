@@ -262,7 +262,7 @@ function PickAllColor() {
  * @param {number} y position Y
  * @param {number[]} color [R, G, B, A]
  */
-function SetColor(x, y, color) {
+function SetPixelColor(x, y, color) {
 	const data = __HSS_GRAPHICS_PRIVATE.ctx.createImageData(1, 1)
 	data.data[0] = color[0]
 	data.data[1] = color[1]
@@ -276,7 +276,7 @@ function SetColor(x, y, color) {
  *
  * @param {number[][]} colors [[R, G, B, A], ...]
  */
-function SetAllColor(colors) {
+function SetAllPixelColor(colors) {
 	const data = __HSS_GRAPHICS_PRIVATE.ctx.createImageData(
 		__HSS_GRAPHICS_PRIVATE.width,
 		__HSS_GRAPHICS_PRIVATE.height,
